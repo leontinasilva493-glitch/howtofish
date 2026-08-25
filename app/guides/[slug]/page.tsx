@@ -8,13 +8,17 @@ export function generateStaticParams() { return allGuides.map((guide) => ({ slug
 
 const validSlugs = new Set(allGuides.map((guide) => guide.slug));
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const guide = allGuides.find((item) => item.slug === params.slug);
+type GuidePageProps = { params: Promise<{ slug: string }> };
+
+export async function generateMetadata({ params }: GuidePageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const guide = allGuides.find((item) => item.slug === slug);
   if (!guide) notFound();
-  return pageMetadata({ title: `How to Fish ${guide.title}`, description: guide.description, path: `/guides/${params.slug}` });
+  return pageMetadata({ title: `How to Fish ${guide.title}`, description: guide.description, path: `/guides/${slug}` });
 }
 
-export default function GuideDetailPage({ params }: { params: { slug: string } }) {
-  if (!validSlugs.has(params.slug)) notFound();
-  return <GuideDetail slug={params.slug} />;
+export default async function GuideDetailPage({ params }: GuidePageProps) {
+  const { slug } = await params;
+  if (!validSlugs.has(slug)) notFound();
+  return <GuideDetail slug={slug} />;
 }
