@@ -1,0 +1,15 @@
+import Image from 'next/image';
+import type { GuidePage } from '@/content/types';
+import { resolveSources } from '@/content/sources';
+import { FaqAccordion, GuideCallout, GuideHeader, KeyFacts, RelatedGuideChips, SourceLine } from './DesignSystem';
+import { GuideStructuredData } from './StructuredData';
+
+const summonSteps = [
+  ['1', 'Catch the Bowhead Whale', 'Available after the scientist objective. Keep it in your inventory and do not sell it.'],
+  ['2', 'Reach the Volcano crater', 'Bring healing items and your strongest replaceable weapon before using the trigger.'],
+  ['3', 'Use the current lava trigger', 'Follow the active objective to start the Mutated Bowhead Whale fight immediately.'],
+] as const;
+
+export function BossFeaturePage({ page }: { page: GuidePage }) {
+  return <main className="core-page boss-feature-page"><div className="wiki-container"><GuideHeader page={page} tone="boss" /><KeyFacts columns={5} facts={[{ label: 'Area', value: 'Volcano' }, { label: 'Trigger', value: 'Volcano lava objective' }, { label: 'Required', value: 'Bowhead Whale' }, { label: 'Recommended', value: 'Best weapon + heals' }, { label: 'Important drop', value: 'Keep for hand-in', emphasis: true }]} /><figure className="boss-hero-image"><Image src="/assets/how-to-fish/mutated-whale-v2.webp" alt="AI-generated cartoon mutated bowhead whale erupting from a glowing volcanic ocean crater" fill priority sizes="(max-width: 768px) 100vw, 1200px" /></figure><section className="boss-section"><h2>How to Summon the Mutated Bowhead Whale</h2><div className="summon-grid">{summonSteps.map(([number, title, copy]) => <article className="summon-step" key={number}><b>{number}</b><h3>{title}</h3><p>{copy}</p></article>)}</div></section><section className="strategy-card"><h2>Best Final Boss Strategy</h2><p>Keep moving between attack patterns and only commit during repeatable safe damage windows. Heal early rather than late. In co-op, assign one player to boss damage, one to small-creature control, and one to healing and revives. On Hard difficulty, tighten every damage window.</p></section><GuideCallout title="Handyman Achievement · Version-Sensitive" variant="version"><p>Steam requires defeating the final boss with bare hands. Community testing suggests a final-blow method, but that detail is not promoted as verified. Follow the literal official requirement for the safest current attempt.</p></GuideCallout><section className="strategy-card" id="not-spawning"><h2>Boss Did Not Spawn? Check This First</h2><p>Correct quest stage? · Scientist objective completed? · Bowhead Whale still in inventory? · Required NPC dialogue finished? · Another boss still active? · Patch or multiplayer issue?</p></section><RelatedGuideChips routes={[{ label: 'Volcano Island Guide', href: '/islands/volcano/' }, { label: 'Full Walkthrough', href: '/walkthrough/' }, { label: 'Handyman Achievement', href: '/achievements/#handyman' }]} /><FaqAccordion title="Mutated Bowhead Whale FAQ" items={page.faqs} /><SourceLine sources={resolveSources(page.sources)} lastUpdated={page.lastUpdated} /></div><GuideStructuredData page={page} /></main>;
+}

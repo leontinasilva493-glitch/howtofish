@@ -1,0 +1,25 @@
+# How to Fish Game Guide & Wiki
+
+Unofficial, evidence-labelled guide for Dazed Games' How to Fish on Steam. Current verification baseline: Patch 1.0.9, checked 2026-08-25.
+
+## Canonical routes
+
+- Home guide hub: /
+- Full walkthrough: /walkthrough/
+- Island order: /islands/
+- Lighthouse: /islands/lighthouse/
+- Forest: /islands/forest/
+- Desert: /islands/desert/
+- Rocks: /islands/rocks/
+- Volcano: /islands/volcano/
+- All bosses: /bosses/
+- Mutated Bowhead Whale: /bosses/mutated-bowhead-whale/
+- All 28 achievements: /achievements/
+- Fish, rods, bait, and lures: /fish/
+- Hidden mechanics: /tips/
+- Multiplayer: /multiplayer/
+- Save and launch fixes: /fixes/
+
+## Evidence boundary
+
+Official facts come from the Steam store, achievements, and Dazed Games patch notes. Community routes and workarounds remain labelled. The site does not claim a total creature count, exclusive island spawns, guaranteed save recovery, or a native eight-player design.

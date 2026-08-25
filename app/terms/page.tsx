@@ -1,0 +1,6 @@
+import type { Metadata } from 'next';
+import { TrustPage } from '@/components/guide/TrustPage';
+
+export const metadata: Metadata = { title: 'Terms | How to Fish Guide', description: 'Terms for using the unofficial How to Fish guide and its version-sensitive community information.', alternates: { canonical: '/terms/' }, robots: { index: false, follow: true } };
+
+export default function TermsPage() { return <TrustPage eyebrow="TERMS" title="Use the guide as guidance, not a guarantee" intro="The site is provided for general game-guide information. Launch-week mechanics, routes, and workarounds can change with patches." sections={[{ title: 'Accuracy and version changes', paragraphs: ['We label evidence and update dates, but cannot guarantee that every community-reported step works on every save, lobby, difficulty, or future patch. Check the active objective and official support guidance.'] }, { title: 'Save and troubleshooting risk', paragraphs: ['Back up data before testing a workaround. You are responsible for changes to local files, saves, hardware settings, or third-party services. This site does not guarantee recovery.'] }, { title: 'Ownership', paragraphs: ['How to Fish and related game assets are owned by their respective rights holders. Guide text and organization do not imply endorsement or affiliation.'] }]} />; }

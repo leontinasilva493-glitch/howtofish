@@ -1,0 +1,12 @@
+{
+  "name": "How to Fish Game Guide & Wiki",
+  "short_name": "How to Fish",
+  "description": "Evidence-labelled How to Fish walkthroughs, islands, bosses, fish, achievements, multiplayer help, and fixes.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#081C2A",
+  "theme_color": "#081C2A",
+  "icons": [
+    { "src": "/assets/how-to-fish/fish-hook.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
