@@ -1,5 +1,5 @@
 {
-  "name": "how-to-fish-wiki",
+  "name": "howtofish",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,11 +7,18 @@
     "dev": "next dev",
     "verification": "node generate-verification.js",
     "build": "node scripts/validate-site-config.cjs && next build && npm run verification",
+    "cf:build": "opennextjs-cloudflare build",
+    "cf:deploy": "opennextjs-cloudflare deploy",
+    "cf:upload": "opennextjs-cloudflare upload",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
+    "@opennextjs/cloudflare": "1.20.2",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
@@ -69,6 +76,7 @@
   },
   "devDependencies": {
     "dotenv": "^16.5.0",
-    "tsx": "^4.23.12"
+    "tsx": "^4.23.12",
+    "wrangler": "4.125.0"
   }
 }
