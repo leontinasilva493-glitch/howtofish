@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { CreaturePreview } from '@/components/guide/CreaturePreview';
 import { FaqAccordion, IssueStatusTag, SourceLine, VerificationBadge, type IssueState } from '@/components/guide/DesignSystem';
 import { IslandProgression } from '@/components/guide/IslandProgression';
+import { HomeGuideBody } from '@/components/wiki/HomeGuideBody';
 import { getPageByRoute } from '@/content/pages';
 import { resolveSources } from '@/content/sources';
 
@@ -23,14 +23,6 @@ const featured = [
   ['Islands', 'All Islands', 'Lighthouse plus four unlockable areas, in order, with Radar routes.', 'See island order', '/islands/', 'fish'],
 ] as const;
 
-const quickSteps = [
-  ['1', 'Learn the core loop', 'Catch, sell, upgrade, defeat the boss, move on.'],
-  ['2', 'Know what not to sell', 'Keep quest drops safe until the related hand-in.'],
-  ['3', 'Upgrade in the right order', 'Rod and inventory first, firepower before bosses.'],
-  ['4', 'Use the Radar', 'It marks quest targets and the next island route.'],
-  ['5', 'Reel differently later', 'After Island 1, fish need the new reeling mechanic.'],
-] as const;
-
 const problems: Array<[string, string, IssueState, string, string]> = [
   ['Fish are not biting after the first island', 'Check active reeling, lure and rod before assuming a bug.', 'community-workaround', 'Community workaround', '/tips/#fishing'],
   ['Radar is missing from the inventory', 'Protect the save copy before testing recovery steps.', 'attempted-fix', 'Attempted fix', '/fixes/#saves'],
@@ -44,7 +36,7 @@ export function HomePage() {
   const page = getPageByRoute('/');
   const pageSources = resolveSources(page.sources);
   return <main>
-    <section className="home-hero" data-home-section="hero"><div className="wiki-container home-hero-grid"><div className="home-hero-copy"><div className="v2-kicker v2-kicker-fish">Dazed Games&apos; How to Fish on Steam</div><h1><span>How to Fish Game</span><span className="home-title-accent">Guide and Wiki</span></h1><p>Complete the game with verified walkthroughs, island routes, boss strategies, fish and bait data, achievements, multiplayer help and current patch fixes.</p><div className="home-actions"><Link href="/walkthrough/" className="wiki-button wiki-button-primary">Start the Full Walkthrough</Link><Link href="/fish/" className="wiki-button wiki-button-secondary">Browse the How to Fish Wiki</Link></div><div className="home-badges"><VerificationBadge kind="official" /><VerificationBadge kind="patch" label="Verified in-game" /><VerificationBadge kind="community" /></div><small>Unofficial fan-made resource. Not affiliated with Dazed Games.</small></div><figure className="home-hero-media"><Image src="/assets/how-to-fish/hero-island-v2.webp" alt="AI-generated cartoon castaway fishing beside a washed-up boat on a tropical island" fill priority sizes="(max-width: 900px) 100vw, 48vw" /></figure></div></section>
+    <section className="home-hero" data-home-section="hero"><div className="wiki-container home-hero-grid"><div className="home-hero-copy"><div className="v2-kicker v2-kicker-fish">Dazed Games&apos; How to Fish on Steam</div><h1><span>How to Fish Game</span><span className="home-title-accent">Guide and Wiki</span></h1><p>Use this evidence-labelled How to Fish game guide for the opening fishing loop, island progression, boss preparation, achievements, multiplayer help and current patch fixes.</p><div className="home-actions"><Link href="/walkthrough/" className="wiki-button wiki-button-primary">Start the Full Walkthrough</Link><Link href="/fish/" className="wiki-button wiki-button-secondary">Browse the How to Fish Wiki</Link></div><div className="home-badges"><VerificationBadge kind="official" /><VerificationBadge kind="community" label="Community-sourced · Updating daily" /><VerificationBadge kind="community" /></div><small>Unofficial fan-made resource. Not affiliated with Dazed Games.</small></div><figure className="home-hero-media"><Image src="/assets/how-to-fish/hero-island-v2.webp" alt="Castaway fishing beside a washed-up boat on a tropical island in How to Fish" fill priority sizes="(max-width: 900px) 100vw, 48vw" /></figure></div></section>
 
     <section className="status-deck" data-home-section="status"><div className="wiki-container status-grid"><StatusCard label="Current verified patch" value="1.0.9" /><StatusCard label="Guides last updated" value="Aug 25, 2026" /><StatusCard label="Save issues" value="Attempted fix" tone="amber" /><StatusCard label="Multiplayer" value="Steam Relay added" tone="teal" /></div></section>
 
@@ -52,11 +44,9 @@ export function HomePage() {
 
     <section className="wiki-section wiki-section-alt" data-home-section="featured"><div className="wiki-container"><SectionHeading kicker="Most wanted" title="Featured How to Fish Game Guides" /><div className="featured-grid">{featured.map(([kicker, title, copy, link, href, tone]) => <Link href={href} className={`v2-card featured-card featured-card-${tone}`} key={href}><div className={`v2-kicker v2-kicker-${tone === 'boss' ? 'boss' : tone === 'fish' ? 'fish' : 'walkthrough'}`}>{kicker}</div><h3>{title}</h3><p>{copy}</p><span>{link}</span></Link>)}</div></div></section>
 
-    <section className="wiki-section" data-home-section="quick-start"><div className="wiki-container"><SectionHeading kicker="Quick start" title="How to Fish Quick Start Guide" /><div className="quick-start-steps">{quickSteps.map(([number, title, copy]) => <article key={number}><b>{number}</b><h3>{title}</h3><p>{copy}</p></article>)}</div></div></section>
+    <section className="wiki-section wiki-section-alt" data-home-section="guide-content"><div className="wiki-container"><HomeGuideBody sections={page.sections} /></div></section>
 
     <section className="wiki-section wiki-section-alt" data-home-section="islands"><div className="wiki-container"><SectionHeading kicker="Progression" title="Complete How to Fish Island Progression" sub="Lighthouse → Forest → Desert → Rocks → Volcano. Complete each local request, encounter and hand-in before moving on." tone="fish" /><IslandProgression /></div></section>
-
-    <section className="wiki-section" data-home-section="fish"><div className="wiki-container"><SectionHeading kicker="Fish database" title="Fish, Rods and Bait Wiki" tone="fish" /><CreaturePreview /></div></section>
 
     <section className="wiki-section wiki-section-alt" data-home-section="problems"><div className="wiki-container"><SectionHeading kicker="From Steam and Reddit" title="Common How to Fish Problems" /><div className="problem-grid">{problems.map(([title, copy, state, label, href]) => <Link href={href} className="v2-card problem-card" key={title}><h3>{title}</h3><p>{copy}</p><IssueStatusTag state={state} label={label} /></Link>)}</div></div></section>
 

@@ -15,5 +15,5 @@ export function pageMetadata({ title, description, path }: { title: string; desc
 
 export function guideMetadata(page: GuidePage): Metadata {
   const metadata = pageMetadata({ title: page.title, description: page.description, path: page.route });
-  return { ...metadata, keywords: [page.primaryKeyword, ...page.secondaryKeywords], robots: { index: page.indexable, follow: true }, openGraph: { ...metadata.openGraph, images: [{ url: page.image || siteConfig.images.og, alt: page.imageAlt || page.h1 }] } };
+  return { ...metadata, keywords: [page.primaryKeyword, ...page.secondaryKeywords], robots: { index: page.indexable, follow: true }, openGraph: { ...metadata.openGraph, type: page.route === '/' ? 'website' : 'article', images: [{ url: page.image || siteConfig.images.og, alt: page.imageAlt || page.h1 }] } };
 }

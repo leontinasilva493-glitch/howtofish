@@ -329,6 +329,7 @@ h1, h2, h3 { text-wrap: balance; }
 .guide-article-image { position: relative; overflow: hidden; aspect-ratio: 16 / 9; margin: 32px 0; border: 1px solid var(--border); border-radius: 14px; }
 .guide-article-image img { object-fit: cover; }
 .guide-content { max-width: 980px; margin-top: 36px; }
+.home-guide-content { margin-top: 0; }
 .guide-content-section { border-top: 1px solid var(--border); padding: 32px 0; }
 .guide-content-section h2 { margin-bottom: 14px; font-family: var(--wiki-font-display); font-size: 34px; font-weight: 600; line-height: 42px; }
 .guide-content-section p, .guide-content-section li { color: var(--text-secondary); }

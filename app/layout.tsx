@@ -1,5 +1,5 @@
 import './globals.css';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Fredoka, Inter } from 'next/font/google';
 import { SiteHeader } from '@/components/wiki/SiteHeader';
 import { SiteFooter } from '@/components/wiki/SiteFooter';
@@ -13,9 +13,8 @@ export const metadata: Metadata = {
   title: { default: 'How to Fish Game Guide & Wiki', template: '%s' },
   description: siteConfig.description,
   manifest: siteConfig.metadata.manifestPath,
-  themeColor: siteConfig.metadata.themeColor,
   icons: {
-    icon: [siteConfig.images.icon.favicon16, siteConfig.images.icon.favicon32],
+    icon: siteConfig.images.icon.favicon,
     apple: siteConfig.images.icon.apple,
   },
   alternates: { canonical: '/' },
@@ -29,6 +28,8 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
 };
+
+export const viewport: Viewport = { themeColor: siteConfig.metadata.themeColor };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
