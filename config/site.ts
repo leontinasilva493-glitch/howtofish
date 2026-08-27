@@ -1,3 +1,5 @@
+import { siteStatus } from '@/content/site-status';
+
 const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3110').replace(/\/+$/, '');
 
 export const siteConfig = {
@@ -14,7 +16,7 @@ export const siteConfig = {
     group: 'https://discord.gg/N9bfGzNP4J',
   },
   launchDate: '2026-08-20',
-  evidenceDate: '2026-08-25',
+  evidenceDate: siteStatus.lastChecked,
   visualPreset: 'reef-dark' as 'reef-dark' | 'editorial-light',
   social: { twitter: '', facebook: '' },
   metadata: { keywords: ['how to fish game guide', 'how to fish game wiki', 'how to fish walkthrough', 'how to fish bosses', 'how to fish achievements', 'how to fish multiplayer'], themeColor: '#081C2A', manifestPath: '/assets/site.webmanifest' },
