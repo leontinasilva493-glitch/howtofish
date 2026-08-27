@@ -25,9 +25,25 @@ const expectedRoutes = [
   '/tips/',
   '/multiplayer/',
   '/fixes/',
+  '/bosses/spider-crab/',
+  '/bosses/giant-piranha/',
+  '/bosses/pufferfish/',
+  '/bosses/albatross/',
+  '/bosses/bowhead-whale/',
+  '/fixes/leeches-not-spawning/',
+  '/fixes/missing-radar/',
+  '/fixes/multiplayer-black-screen/',
+  '/fixes/save-autosave/',
+  '/fixes/error-0x11c7/',
+  '/achievements/bean/',
+  '/achievements/fishipedia/',
+  '/achievements/rich-millionaire/',
+  '/achievements/360-no-scope/',
+  '/achievements/handyman/',
+  '/achievements/everyones-dream/',
 ];
 
-test('the MVP publishes exactly the fifteen canonical SEO routes', () => {
+test('the P0-P2 release publishes exactly the thirty-one canonical SEO routes', () => {
   assert.deepEqual(seoPages.map((page) => page.route), expectedRoutes);
   assert.equal(new Set(seoPages.map((page) => page.title)).size, seoPages.length);
   assert.equal(new Set(seoPages.map((page) => page.description)).size, seoPages.length);

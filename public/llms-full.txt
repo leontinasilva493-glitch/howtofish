@@ -1,6 +1,6 @@
 # How to Fish Game Guide & Wiki — full content map
 
-This is an unofficial English guide/wiki for the Steam game How to Fish by Dazed Games. It is designed around answer-first player tasks and evidence strength. Current verification baseline: Patch 1.0.9, checked 2026-08-25.
+This is an unofficial English guide/wiki for the Steam game How to Fish by Dazed Games. It is designed around answer-first player tasks and evidence strength. Current verification baseline: Patch 1.0.9, checked 2026-08-27.
 
 ## Progression
 

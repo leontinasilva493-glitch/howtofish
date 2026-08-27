@@ -8,7 +8,7 @@ export type SourceReference = {
   publisher: string;
   url: string;
   sourceLevel: SourceLevel;
-  sourceType: 'steam-store' | 'steam-patch' | 'steam-achievements' | 'steam-discussion' | 'reddit' | 'youtube' | 'media-guide' | 'in-game';
+  sourceType: 'steam-store' | 'steam-patch' | 'steam-achievements' | 'steam-discussion' | 'reddit' | 'youtube' | 'media-guide' | 'platform-support' | 'in-game';
   accessedAt: string;
   notes: string;
 };
@@ -78,6 +78,7 @@ export type Creature = {
   collectorRequired?: boolean;
   fishipediaRequired?: boolean;
   sourceLevel: SourceLevel;
+  sourceIds?: string[];
   verifiedPatch?: string;
   lastVerified?: string;
   notes?: string;

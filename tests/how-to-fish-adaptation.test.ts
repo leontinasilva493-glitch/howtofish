@@ -17,32 +17,42 @@ test('site identity and official destinations are configured for How to Fish', (
   assert.equal(siteConfig.images.og, '/assets/how-to-fish/hero-island-v2.webp');
 });
 
-test('legacy template routes redirect with HTTP 301 to final MVP intents', async () => {
+test('every observed legacy live route redirects with HTTP 301 to its closest canonical intent', async () => {
   const nextConfig = await import('../next.config.js');
   const redirectsFn = nextConfig.default.redirects;
   assert.equal(typeof redirectsFn, 'function');
   assert.equal(nextConfig.default.trailingSlash, true);
   const redirects = await redirectsFn!();
-  assert.deepEqual(redirects, [
-    { source: '/wiki', destination: '/', statusCode: 301 },
-    { source: '/guide', destination: '/', statusCode: 301 },
-    { source: '/guides', destination: '/walkthrough/', statusCode: 301 },
-    { source: '/guides/:path*', destination: '/walkthrough/', statusCode: 301 },
-    { source: '/gear', destination: '/fish/', statusCode: 301 },
-    { source: '/gambling', destination: '/tips/', statusCode: 301 },
-    { source: '/calculator', destination: '/tips/', statusCode: 301 },
-    { source: '/checklist', destination: '/achievements/', statusCode: 301 },
-    { source: '/codes', destination: '/tips/', statusCode: 301 },
-    { source: '/maps', destination: '/islands/', statusCode: 301 },
-    { source: '/map', destination: '/islands/', statusCode: 301 },
-    { source: '/entities/verity', destination: '/bosses/', statusCode: 301 },
-    { source: '/entities/bosses', destination: '/bosses/', statusCode: 301 },
-    { source: '/weapons', destination: '/tips/', statusCode: 301 },
-    { source: '/updates', destination: '/', statusCode: 301 },
-    { source: '/community', destination: '/multiplayer/', statusCode: 301 },
-    { source: '/tools', destination: '/tips/', statusCode: 301 },
-    { source: '/privacy', destination: '/privacy-policy/', statusCode: 301 },
-  ]);
+  const redirectMap = new Map(redirects.map((entry) => [entry.source, entry] as const));
+  const expectedLegacyRoutes = [
+    ['/guides', '/walkthrough/'],
+    ['/guides/beginner-guide.html', '/'],
+    ['/guides/multiplayer.html', '/multiplayer/'],
+    ['/guides/system-requirements.html', '/'],
+    ['/guides/first-hour.html', '/islands/lighthouse/'],
+    ['/guides/solo-guide.html', '/walkthrough/'],
+    ['/guides/troubleshooting.html', '/fixes/'],
+    ['/guides/achievements.html', '/achievements/'],
+    ['/media', '/'],
+    ['/guides/controls.html', '/tips/'],
+    ['/guides/progression.html', '/walkthrough/'],
+    ['/guides/how-to-fish.html', '/tips/'],
+    ['/guides/money-and-gambling.html', '/tips/'],
+    ['/wiki', '/'],
+    ['/wiki/fish.html', '/fish/'],
+    ['/wiki/weapons.html', '/tips/'],
+    ['/wiki/bosses.html', '/bosses/'],
+    ['/wiki/islands.html', '/islands/'],
+    ['/faq.html', '/#faq'],
+    ['/about.html', '/about/'],
+    ['/contact.html', '/contact/'],
+    ['/privacy.html', '/privacy-policy/'],
+    ['/disclaimer.html', '/terms/'],
+  ] as const;
+
+  for (const [source, destination] of expectedLegacyRoutes) {
+    assert.deepEqual(redirectMap.get(source), { source, destination, statusCode: 301 }, `${source} must preserve its search intent`);
+  }
 });
 
 test('the reef theme and Fredoka display font are wired into the app shell', async () => {
@@ -71,8 +81,14 @@ test('fish earnings calculator uses ceiling division and a trick-shot scenario',
   assert.equal(calculator.calculateFishingTrips(0, 500, 0), null);
 });
 
-test('the sitemap publishes exactly the fifteen canonical MVP routes', async () => {
+test('the sitemap publishes the thirty-one canonical P0-P2 routes', async () => {
   const { default: sitemap } = await import('../app/sitemap');
   const urls = sitemap().map((entry) => new URL(entry.url).pathname);
-  assert.deepEqual(urls, ['/', '/walkthrough/', '/islands/', '/islands/lighthouse/', '/islands/forest/', '/islands/desert/', '/islands/rocks/', '/islands/volcano/', '/bosses/', '/bosses/mutated-bowhead-whale/', '/achievements/', '/fish/', '/tips/', '/multiplayer/', '/fixes/']);
+  assert.deepEqual(urls, [
+    '/', '/walkthrough/', '/islands/', '/islands/lighthouse/', '/islands/forest/', '/islands/desert/', '/islands/rocks/', '/islands/volcano/',
+    '/bosses/', '/bosses/mutated-bowhead-whale/', '/achievements/', '/fish/', '/tips/', '/multiplayer/', '/fixes/',
+    '/bosses/spider-crab/', '/bosses/giant-piranha/', '/bosses/pufferfish/', '/bosses/albatross/', '/bosses/bowhead-whale/',
+    '/fixes/leeches-not-spawning/', '/fixes/missing-radar/', '/fixes/multiplayer-black-screen/', '/fixes/save-autosave/', '/fixes/error-0x11c7/',
+    '/achievements/bean/', '/achievements/fishipedia/', '/achievements/rich-millionaire/', '/achievements/360-no-scope/', '/achievements/handyman/', '/achievements/everyones-dream/',
+  ]);
 });

@@ -33,12 +33,12 @@ const quickLinks = [
 ] as const;
 
 const problems: Array<[string, string, IssueState, string, string]> = [
-  ['Fish are not biting after the first island', 'Check active reeling, lure and rod before assuming a bug.', 'community-workaround', 'Community workaround', '/tips/#fishing'],
-  ['Radar is missing from the inventory', 'Protect the save copy before testing recovery steps.', 'attempted-fix', 'Attempted fix', '/fixes/#saves'],
-  ['Items disappeared after loading a save', 'Patch 1.0.9 attempted a save-corruption fix.', 'attempted-fix', 'Attempted fix', '/fixes/#saves'],
-  ['Black screen when joining a friend', 'Check matching patches and the Steam Relay indicator.', 'still-reported', 'Still reported', '/multiplayer/#relay'],
-  ['Old Bean achievement route no longer works', 'Patch 1.0.5 closed the old island-skip route.', 'unverified', 'Version-sensitive', '/achievements/#warnings'],
-  ['Boss is not spawning at the trigger spot', 'Recheck quest stage, bait, rod and NPC dialogue.', 'community-workaround', 'Community report', '/bosses/#not-spawning'],
+  ['Pufferfish keeps ending the run', 'Use the Carrot route, keep moving, and account for current difficulty.', 'community-workaround', 'Cross-checked strategy', '/bosses/pufferfish/'],
+  ['Leeches are not appearing', 'Confirm the three-Leech objective before one controlled reload.', 'still-reported', 'Still reported', '/fixes/leeches-not-spawning/'],
+  ['Radar is missing from the inventory', 'Protect the save and inspect the current island shop board.', 'community-workaround', 'Community recovery', '/fixes/missing-radar/'],
+  ['Items disappeared after loading a save', 'Patch 1.0.9 attempted a save-corruption fix.', 'attempted-fix', 'Attempted fix', '/fixes/save-autosave/'],
+  ['Black screen when joining a friend', 'Align patches, recreate the lobby, and read Steam Relay status.', 'still-reported', 'Still reported', '/fixes/multiplayer-black-screen/'],
+  ['Old Bean achievement route no longer works', 'Patch 1.0.5 closed the old island-skip route.', 'unverified', 'Version-sensitive', '/achievements/bean/'],
 ];
 
 export function HomePage() {
