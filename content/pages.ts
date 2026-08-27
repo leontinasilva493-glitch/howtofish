@@ -1,5 +1,6 @@
 import type { GuidePage } from './types';
 import { siteStatus } from './site-status';
+import { innerPages } from './inner-pages';
 
 const shared: Pick<GuidePage, 'lastUpdated' | 'verifiedPatch' | 'updateLog' | 'indexable'> = {
   lastUpdated: siteStatus.lastChecked,
@@ -10,7 +11,7 @@ const shared: Pick<GuidePage, 'lastUpdated' | 'verifiedPatch' | 'updateLog' | 'i
 
 const page = (input: Omit<GuidePage, keyof typeof shared>): GuidePage => ({ ...input, ...shared });
 
-export const seoPages: GuidePage[] = [
+const corePages: GuidePage[] = [
   page({
     route: '/', priority: 'P0', pageType: 'guide-wiki-hub', primaryKeyword: 'how to fish game guide', secondaryKeywords: ['how to fish game wiki', 'how to fish guide', 'how to fish wiki', 'how to fish game', 'how to fish steam guide'],
     title: 'How to Fish Game Guide – Walkthrough, Bosses & All Islands', description: 'The complete How to Fish game guide: full walkthrough, all 5 island routes, boss strategies, fish & bait data, all 28 achievements, and patch fixes.', h1: 'How to Fish Game Guide and Wiki', eyebrow: "Dazed Games' How to Fish on Steam",
@@ -208,7 +209,7 @@ export const seoPages: GuidePage[] = [
     title: 'How to Fish Game: All Fish, Rods, Bait & Lures', description: 'Search every confirmed creature by lure, rod and area, track normal and Drip entries, and finish Collector and Fishipedia without guesswork.', h1: 'All Fish, Rods, Bait and Lures in How to Fish', eyebrow: 'CREATURE DATABASE · EVIDENCE FIRST',
     quickAnswer: 'Use the database to search confirmed and community-documented creatures by name, type, lure, rod, and first available area. It deliberately does not claim a total fish count or say a creature is found only on one island. A high-traffic Steam guide reports that lure can determine catch selection, so treat area as an observation, not an absolute spawn rule.',
     contentStatus: 'version-sensitive', spoilerLevel: 'minor', image: '/assets/how-to-fish/guide-fishing-v2.webp', imageAlt: 'AI-generated cartoon fisher reeling in a colorful creature from a small boat',
-    keyFacts: [{ label: 'Total count', value: 'Not claimed' }, { label: 'Location model', value: 'Observed, not exclusive' }, { label: 'Collection', value: 'Collector + Fishipedia' }, { label: 'Patch fix', value: 'Fishipedia 1.0.5' }],
+    keyFacts: [{ label: 'Cross-checked rows', value: '44 catches + Seagull' }, { label: 'Location model', value: 'First documented stage' }, { label: 'Collection', value: 'Collector + Fishipedia' }, { label: 'Patch fix', value: 'Fishipedia 1.0.5' }],
     sections: [
       { id: 'selection', title: 'How catch selection works', paragraphs: ['Current community evidence suggests lure may be more important than the island for some catches. The database therefore separates first available area, observed areas, lure, and rod.'] },
       { id: 'rods', title: 'Rods', paragraphs: ['Match the current quest and shop prompts. Exact rod tables remain incomplete until each option is observed in the live build. Unknown values stay blank instead of being copied from another guide.'] },
@@ -217,7 +218,7 @@ export const seoPages: GuidePage[] = [
       { id: 'unknown', title: 'Unknown and unverified entries', paragraphs: ['The MVP publishes a useful evidence-labelled subset. It does not pretend to be a complete count until the in-game Fishipedia is checked entry by entry.'] },
     ],
     faqs: [{ question: 'How many fish are in How to Fish?', answer: 'This guide does not publish a number until the current in-game collection can be verified.' }, { question: 'Are fish locked to one island?', answer: 'Not always according to current community evidence; use lure, rod, first-available area, and observed areas instead of an absolute location.' }],
-    relatedPages: ['/achievements/#collector', '/achievements/#fishipedia', '/tips/', '/islands/', '/fixes/'], sources: ['steamStore', 'steamAchievements', 'patch105', 'communityGuide', 'bitingDiscussion'],
+    relatedPages: ['/achievements/#collector', '/achievements/fishipedia/', '/tips/', '/islands/', '/fixes/'], sources: ['steamStore', 'steamAchievements', 'patch105', 'allThingsFish', 'g2aFishList', 'bitingDiscussion'],
   }),
   page({
     route: '/tips/', priority: 'P2', pageType: 'mechanics-guide', primaryKeyword: 'how to fish game tips', secondaryKeywords: ['how to fish hidden mechanics', 'how to fish things the game does not tell you', 'how to fish game secrets', 'how to fish fish not biting', 'how to fish killscore', 'how to fish cooking'],
@@ -268,6 +269,8 @@ export const seoPages: GuidePage[] = [
     relatedPages: ['/multiplayer/', '/walkthrough/', '/tips/', '/islands/'], sources: ['patch109', 'patch104', 'saveDiscussion', 'blackScreenDiscussion'],
   }),
 ];
+
+export const seoPages: GuidePage[] = [...corePages, ...innerPages];
 
 export function getPageByRoute(route: string): GuidePage {
   const normalized = route === '/' ? '/' : `${route.replace(/\/+$/, '')}/`;

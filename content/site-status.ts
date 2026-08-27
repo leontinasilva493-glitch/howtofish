@@ -1,6 +1,6 @@
 export const siteStatus = {
   verifiedPatch: '1.0.9',
-  lastChecked: '2026-08-25',
+  lastChecked: '2026-08-27',
 } as const;
 
 export function formatSiteStatusDate(value: string) {

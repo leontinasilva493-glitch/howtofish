@@ -403,14 +403,17 @@ h1, h2, h3 { text-wrap: balance; }
 .data-search input, .data-controls select { width: 100%; min-height: 44px; border: 1px solid var(--border-strong); border-radius: 10px; background: var(--bg-primary); padding: 10px 14px; color: var(--text-primary); }
 .data-search input { padding-left: 40px; }
 .achievement-list { display: grid; gap: 8px; }
-.achievement-row { display: grid; align-items: center; gap: 12px; grid-template-columns: auto 1fr auto; border-top: 1px solid var(--border); padding: 14px 0; cursor: pointer; }
-.achievement-row > input { position: absolute; opacity: 0; pointer-events: none; }
+.achievement-row { display: grid; align-items: center; gap: 12px; grid-template-columns: auto 1fr auto; border-top: 1px solid var(--border); padding: 14px 0; }
+.achievement-toggle { position: relative; cursor: pointer; }
+.achievement-toggle input { position: absolute; opacity: 0; pointer-events: none; }
 .achievement-checkmark { display: grid; width: 22px; height: 22px; place-items: center; border: 1px solid var(--border-strong); border-radius: 6px; }
 .achievement-row.is-complete .achievement-checkmark { background: var(--teal); }
 .achievement-row.is-complete .achievement-checkmark::after { content: '✓'; color: var(--bg-primary); font-weight: 700; }
 .achievement-copy strong, .achievement-copy small, .achievement-copy em { display: block; }
 .achievement-copy small { color: var(--text-secondary); }
 .achievement-copy em { color: var(--text-muted); font-size: 12px; font-style: normal; }
+.achievement-detail-link { display: inline-flex; margin-top: 6px; color: var(--teal); font-size: 12px; font-weight: 700; text-decoration: none; }
+.achievement-detail-link:hover { color: var(--amber); }
 .achievement-meta { display: grid; justify-items: end; }
 .achievement-meta b { color: var(--amber); }
 .achievement-meta small, .achievement-meta i { color: var(--text-muted); font-size: 9px; font-style: normal; text-transform: uppercase; }

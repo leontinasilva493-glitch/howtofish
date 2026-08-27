@@ -1,6 +1,6 @@
 # How to Fish Game Guide & Wiki
 
-Unofficial, evidence-labelled guide for Dazed Games' How to Fish on Steam. Current verification baseline: Patch 1.0.9, checked 2026-08-25.
+Unofficial, evidence-labelled guide for Dazed Games' How to Fish on Steam. Current verification baseline: Patch 1.0.9, checked 2026-08-27.
 
 ## Canonical routes
 
@@ -19,6 +19,22 @@ Unofficial, evidence-labelled guide for Dazed Games' How to Fish on Steam. Curre
 - Hidden mechanics: /tips/
 - Multiplayer: /multiplayer/
 - Save and launch fixes: /fixes/
+- How to Beat the Spider Crab: /bosses/spider-crab/
+- How to Beat the Giant Piranha: /bosses/giant-piranha/
+- How to Beat the Pufferfish: /bosses/pufferfish/
+- How to Beat the Albatross: /bosses/albatross/
+- How to Beat the Bowhead Whale: /bosses/bowhead-whale/
+- Leeches Not Spawning: Safe Checks: /fixes/leeches-not-spawning/
+- Missing or Lost Radar: What to Check: /fixes/missing-radar/
+- Multiplayer Black Screen: Safe Fix Order: /fixes/multiplayer-black-screen/
+- Save, Autosave, and Missing Items: /fixes/save-autosave/
+- Error 0x11C7: Application Control Block: /fixes/error-0x11c7/
+- Bean Achievement: Current-Patch Plan: /achievements/bean/
+- Fishipedia: Find All Drip Creatures: /achievements/fishipedia/
+- Rich! Millionaire: One 100,000 Sale: /achievements/rich-millionaire/
+- 360 No Scope Achievement Guide: /achievements/360-no-scope/
+- Handyman: Final Boss With Bare Hands: /achievements/handyman/
+- Everyone's Dream: Seagull With Dynamite: /achievements/everyones-dream/
 
 ## Evidence boundary
 

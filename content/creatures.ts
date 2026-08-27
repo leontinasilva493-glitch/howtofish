@@ -1,14 +1,122 @@
+import { siteStatus } from './site-status';
 import type { Creature } from './types';
 
+const crossCheckedSources = ['allThingsFish', 'g2aFishList'];
+
+function slugify(value: string) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+function regular(name: string, firstAvailableArea: string, lure: string, rod = 'Fishing Rod'): Creature {
+  return {
+    id: slugify(name),
+    name,
+    type: 'normal',
+    lure,
+    rod,
+    firstAvailableArea,
+    observedAreas: [firstAvailableArea],
+    hasDripVariant: true,
+    collectorRequired: true,
+    fishipediaRequired: true,
+    sourceLevel: 'community',
+    sourceIds: crossCheckedSources,
+    verifiedPatch: siteStatus.verifiedPatch,
+    lastVerified: siteStatus.lastChecked,
+    notes: 'The area is the first cross-checked progression stage; current lure and Fishipedia state remain the live authority.',
+  };
+}
+
+function encounter(input: {
+  name: string;
+  type: 'boss' | 'mini-boss';
+  area: string;
+  lure: string;
+  rod?: string;
+  questUse: string;
+  importantDrop?: string;
+}): Creature {
+  return {
+    id: slugify(input.name),
+    name: input.name,
+    type: input.type,
+    lure: input.lure,
+    rod: input.rod || 'Fishing Rod',
+    firstAvailableArea: input.area,
+    observedAreas: [input.area],
+    questUse: input.questUse,
+    importantDrop: input.importantDrop,
+    collectorRequired: true,
+    sourceLevel: 'community',
+    sourceIds: crossCheckedSources,
+    verifiedPatch: siteStatus.verifiedPatch,
+    lastVerified: siteStatus.lastChecked,
+    notes: 'Trigger and progression stage match two current media tables; fight details remain version-sensitive.',
+  };
+}
+
 export const creatures: Creature[] = [
-  { id: 'spider-crab', name: 'Spider Crab', type: 'boss', firstAvailableArea: 'Lighthouse', observedAreas: ['Lighthouse'], questUse: 'Opening-area progression lead', importantDrop: 'Keep the quest drop until the Lighthouse hand-in is complete', collectorRequired: true, sourceLevel: 'community', verifiedPatch: '1.0.9', lastVerified: '2026-08-25', notes: 'Route detail is community-sourced and should be checked against the current objective text.' },
-  { id: 'leech', name: 'Leech', type: 'normal', firstAvailableArea: 'Forest', observedAreas: ['Forest'], questUse: 'Forest dinner and progression lead', hasDripVariant: true, collectorRequired: true, fishipediaRequired: true, sourceLevel: 'community', verifiedPatch: '1.0.9', lastVerified: '2026-08-25', notes: 'Use the current lure and rod prompts rather than assuming an island-exclusive spawn.' },
-  { id: 'giant-piranha', name: 'Giant Piranha', type: 'boss', firstAvailableArea: 'Forest', observedAreas: ['Forest'], questUse: 'Forest major encounter', importantDrop: 'Do not sell a quest-marked drop before the hand-in', collectorRequired: true, sourceLevel: 'community', verifiedPatch: '1.0.9', lastVerified: '2026-08-25' },
-  { id: 'endangered-fish', name: 'Endangered Fish quest target', type: 'normal', firstAvailableArea: 'Desert', observedAreas: ['Desert'], questUse: 'Desert quest lead that awards the next bait', collectorRequired: false, sourceLevel: 'unconfirmed', verifiedPatch: '1.0.9', lastVerified: '2026-08-25', notes: 'The exact creature name is intentionally withheld until confirmed in-game.' },
-  { id: 'pufferfish', name: 'Pufferfish', type: 'boss', lure: 'Carrot bait (community route)', firstAvailableArea: 'Desert', observedAreas: ['Desert'], questUse: 'Desert major encounter', collectorRequired: true, sourceLevel: 'community', verifiedPatch: '1.0.9', lastVerified: '2026-08-25', notes: 'Patch 1.0.4 nerfed the encounter; exact health and damage are difficulty-dependent and unpublished.' },
-  { id: 'tuna', name: 'Tuna', type: 'normal', firstAvailableArea: 'Rocks', observedAreas: ['Rocks'], questUse: 'Community-reported trigger item for the Terrorizing Bird route', hasDripVariant: true, collectorRequired: true, fishipediaRequired: true, sourceLevel: 'community', verifiedPatch: '1.0.9', lastVerified: '2026-08-25' },
-  { id: 'terrorizing-bird', name: 'Terrorizing Bird', type: 'boss', firstAvailableArea: 'Rocks', observedAreas: ['Rocks'], questUse: 'Story encounter tied to the official Terrorizing bird achievement', collectorRequired: true, sourceLevel: 'community', verifiedPatch: '1.0.9', lastVerified: '2026-08-25', notes: 'The achievement confirms the encounter; exact combat steps remain community-sourced.' },
-  { id: 'bowhead-whale', name: 'Bowhead Whale', type: 'boss', firstAvailableArea: 'Volcano', observedAreas: ['Volcano'], questUse: 'Final-island quest and boss-route requirement', importantDrop: 'Keep the quest-marked creature or drop until the final sequence is complete', collectorRequired: true, sourceLevel: 'community', verifiedPatch: '1.0.9', lastVerified: '2026-08-25', notes: 'Patch 1.0.4 nerfed the whale; the current difficulty setting changes combat values.' },
-  { id: 'mutated-bowhead-whale', name: 'Mutated Bowhead Whale', type: 'boss', firstAvailableArea: 'Volcano', observedAreas: ['Volcano'], questUse: 'Final boss and Handyman target', importantDrop: 'Keep the final quest drop for the last hand-in', collectorRequired: true, sourceLevel: 'community', verifiedPatch: '1.0.9', lastVerified: '2026-08-25', notes: 'The official Handyman achievement confirms a final boss; trigger and phase guidance remain version-sensitive.' },
-  { id: 'seagull', name: 'Seagull', type: 'normal', observedAreas: ['Multiple island areas observed in official media'], questUse: "Let me go and Everyone's dream achievements", collectorRequired: true, sourceLevel: 'official', verifiedPatch: '1.0.9', lastVerified: '2026-08-25', notes: 'Official achievements confirm seagull interactions but do not define a fixed spawn table.' },
+  regular('Rock Crab', 'Lighthouse', 'Free Lure or Hot Dog', 'Crab Fishing Rod'),
+  regular('Shrimp', 'Lighthouse', 'Free Lure', 'Crab Fishing Rod'),
+  regular('Lobster', 'Lighthouse', 'Hot Dog', 'Crab Fishing Rod'),
+
+  regular('Piranha', 'Forest', 'Hot Dog', 'Crab Fishing Rod'),
+  regular('Mackerel', 'Forest', 'Free Lure'),
+  regular('Gar', 'Forest', 'Free Lure'),
+  regular('Pike', 'Forest', 'Free Lure or Beginner Lure'),
+  regular('Cod', 'Forest', 'Beginner Lure'),
+  regular('Goldfish', 'Forest', 'Free Lure or Beginner Lure'),
+  regular('Perch', 'Forest', 'Beginner Lure'),
+  regular('Triggerfish', 'Forest', 'Beginner Lure'),
+
+  regular('Angelfish', 'Desert', 'Standard Lure'),
+  regular('Boxfish', 'Desert', 'Standard Lure'),
+  regular('Catfish', 'Desert', 'Standard Lure'),
+  regular('Sea Urchin', 'Desert', 'Standard Lure'),
+  regular('Seahorse', 'Desert', 'Standard Lure'),
+  regular('Clownfish', 'Desert', 'Standard Lure'),
+  regular('Bluegill', 'Desert', 'Standard Lure'),
+  regular('Salmon', 'Desert', 'Standard Lure'),
+  regular('Needlefish', 'Desert', 'Standard Lure'),
+
+  regular('Parrotfish', 'Rocks', 'Professional Lure'),
+  regular('Voxelfish', 'Rocks', 'Professional Lure'),
+  regular('Bass', 'Rocks', 'Professional Lure'),
+  regular('Halibut', 'Rocks', 'Professional Lure'),
+  regular('Eel', 'Rocks', 'Professional Lure'),
+  regular('Tigerfish', 'Rocks', 'Professional Lure'),
+  regular('Flying Fish', 'Rocks', 'Professional Lure'),
+  regular('Sengarat', 'Rocks', 'Professional Lure'),
+  regular('Red Snapper', 'Rocks', 'Professional Lure'),
+
+  regular('Anglerfish', 'Volcano', 'Scientific Lure'),
+  regular('Blobfish', 'Volcano', 'Scientific Lure'),
+  regular('Oarfish', 'Volcano', 'Scientific Lure'),
+  regular('Superdwarf Fish', 'Volcano', 'Scientific Lure'),
+  regular('Stonefish', 'Volcano', 'Scientific Lure'),
+
+  encounter({ name: 'Spider Crab', type: 'boss', area: 'Lighthouse', lure: 'Empty Beer Can', rod: 'Crab Fishing Rod', questUse: 'Opening progression boss', importantDrop: 'Keep the distinct boss item for the Lighthouse hand-in' }),
+  encounter({ name: 'Giant Piranha', type: 'boss', area: 'Forest', lure: 'Modified Leech', questUse: 'Forest progression boss', importantDrop: 'Keep the distinct skeleton or quest item for the Forest hand-in' }),
+  encounter({ name: 'The Old Pike', type: 'mini-boss', area: 'Forest', lure: 'Beginner Boss Lure', questUse: 'Optional mini-boss and collection encounter' }),
+  encounter({ name: 'Blue Shark', type: 'mini-boss', area: 'Desert', lure: 'Standard Boss Lure', questUse: 'Grillmaster route', importantDrop: 'Keep the catch for the Grillmaster interaction' }),
+  encounter({ name: 'Pufferfish', type: 'boss', area: 'Desert', lure: 'Carrot', questUse: 'Desert progression boss', importantDrop: 'Keep the distinct fin or quest item for the tourist hand-in' }),
+  encounter({ name: 'Tuna', type: 'mini-boss', area: 'Rocks', lure: 'Professional Boss Lure', questUse: 'Albatross trigger', importantDrop: 'Keep the body for the Albatross encounter' }),
+  encounter({ name: 'Albatross', type: 'boss', area: 'Rocks', lure: 'Tuna', questUse: 'Rocks progression encounter', importantDrop: 'Keep the head for the local NPC hand-in' }),
+  encounter({ name: 'Goblin Shark', type: 'mini-boss', area: 'Volcano', lure: 'Scientific Boss Lure', questUse: 'Optional Volcano mini-boss and collection encounter' }),
+  encounter({ name: 'Bowhead Whale', type: 'boss', area: 'Volcano', lure: 'Fish Bucket', questUse: 'Final-island progression boss', importantDrop: 'Keep the Whale body for the volcano sequence' }),
+  encounter({ name: 'Mutated Bowhead Whale', type: 'boss', area: 'Volcano', lure: 'Bowhead Whale', questUse: 'Final boss and Handyman target', importantDrop: 'Keep the final quest item for the last hand-in' }),
+
+  {
+    id: 'seagull',
+    name: 'Seagull',
+    type: 'normal',
+    observedAreas: ['Multiple island areas shown in official media'],
+    questUse: "Let me go and Everyone's dream achievements",
+    collectorRequired: true,
+    sourceLevel: 'official',
+    sourceIds: ['steamAchievements', 'steamMedia'],
+    verifiedPatch: siteStatus.verifiedPatch,
+    lastVerified: siteStatus.lastChecked,
+    notes: 'Official achievements confirm Seagull interactions but do not define a fixed area or bait table.',
+  },
 ];
