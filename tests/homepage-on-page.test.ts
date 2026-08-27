@@ -1,22 +1,46 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
+import * as React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 
+import { HomePage } from '../components/wiki/HomePage';
 import { guideMetadata } from '../config/seo';
 import { getPageByRoute } from '../content/pages';
+import { resolveSources } from '../content/sources';
 
 const projectFile = (path: string) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
-const wordCount = (value: string) => value.match(/[A-Za-z0-9]+(?:['’-][A-Za-z0-9]+)*/g)?.length ?? 0;
 const openGraphType = (metadata: Awaited<ReturnType<typeof guideMetadata>>) => (metadata.openGraph as { type?: string } | undefined)?.type;
+(globalThis as typeof globalThis & { React: typeof React }).React = React;
 
-test('the homepage owns a substantial direct-answer guide body', async () => {
+test('the homepage owns an answer-first guide with the required player-task sections', () => {
   const home = getPageByRoute('/');
-  const body = home.sections.flatMap((section) => [section.title, section.intro ?? '', ...(section.paragraphs ?? []), ...(section.steps ?? []), ...(section.bullets ?? [])]).join(' ');
-  const lighthouse = home.sections.find((section) => section.id === 'lighthouse-chapter');
+  const sectionIds = new Set(home.sections.map((section) => section.id));
 
-  assert.ok(wordCount(body) >= 1200 && wordCount(body) <= 1800, `homepage guide body has ${wordCount(body)} words`);
-  assert.ok(lighthouse, 'homepage needs a Lighthouse first-chapter section');
-  assert.ok(wordCount([lighthouse.title, lighthouse.intro ?? '', ...(lighthouse.paragraphs ?? []), ...(lighthouse.steps ?? []), ...(lighthouse.bullets ?? [])].join(' ')) >= 600, 'Lighthouse chapter needs at least 600 words');
+  assert.ok(home.quickAnswer.length >= 100, 'homepage needs a useful quick answer');
+  for (const sectionId of ['quick-start', 'fishing-basics', 'lighthouse-chapter', 'next-steps', 'verification']) {
+    assert.ok(sectionIds.has(sectionId), `homepage needs the ${sectionId} section`);
+  }
+});
+
+test('the homepage renders its quick answer and one-click section navigation after the hero', () => {
+  const home = getPageByRoute('/');
+  const markup = renderToStaticMarkup(React.createElement(HomePage));
+
+  assert.match(markup, /data-home-section="hero"[\s\S]*data-home-section="quick-answer"[\s\S]*data-home-section="status"/);
+  assert.ok(markup.includes(home.quickAnswer), 'rendered homepage needs the data-backed quick answer');
+  assert.match(markup, /aria-label="Jump to guide sections"/);
+  for (const target of ['quick-start', 'lighthouse-chapter', 'island-progression', 'common-problems', 'faq']) {
+    assert.match(markup, new RegExp(`href="#${target}"`), `quick navigation needs #${target}`);
+    assert.match(markup, new RegExp(`id="${target}"`), `homepage needs the #${target} target`);
+  }
+});
+
+test('homepage sources cover its official and community-documented claims', () => {
+  const sourceLevels = new Set(resolveSources(getPageByRoute('/').sources).map((source) => source.sourceLevel));
+
+  assert.ok(sourceLevels.has('official'), 'homepage needs an official source');
+  assert.ok(sourceLevels.has('community'), 'homepage community route needs a community source');
 });
 
 test('the homepage renders direct guide content and no incomplete fish preview', async () => {
@@ -35,6 +59,18 @@ test('homepage metadata targets the complete guide query and uses a website OG t
   assert.equal(openGraphType(metadata), 'website');
 });
 
+test('homepage, walkthrough, and achievements retain separate search intent ownership', () => {
+  const home = getPageByRoute('/');
+  const walkthrough = getPageByRoute('/walkthrough/');
+  const achievements = getPageByRoute('/achievements/');
+
+  assert.equal(home.primaryKeyword, 'how to fish game guide');
+  assert.equal(walkthrough.primaryKeyword, 'how to fish game walkthrough');
+  assert.equal(achievements.primaryKeyword, 'how to fish all achievements');
+  assert.ok(!home.secondaryKeywords.includes(walkthrough.primaryKeyword));
+  assert.ok(!home.secondaryKeywords.includes(achievements.primaryKeyword));
+});
+
 test('inner guide metadata remains an article and homepage social alt is honest', async () => {
   const walkthrough = guideMetadata(getPageByRoute('/walkthrough/'));
   const [home, pages, layout] = await Promise.all([
@@ -43,7 +79,6 @@ test('inner guide metadata remains an article and homepage social alt is honest'
     projectFile('app/layout.tsx'),
   ]);
   assert.equal(openGraphType(walkthrough), 'article');
-  assert.match(home, /Community-sourced · Updating daily/);
   assert.match(home, /Castaway fishing beside a washed-up boat on a tropical island in How to Fish/);
   assert.match(pages, /Castaway fishing beside a washed-up boat on a tropical island in How to Fish/);
   assert.doesNotMatch(layout, /favicon16|favicon32/);

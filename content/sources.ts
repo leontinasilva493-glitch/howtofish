@@ -1,6 +1,7 @@
 import type { SourceReference } from './types';
+import { siteStatus } from './site-status';
 
-const accessedAt = '2026-08-25';
+const accessedAt = siteStatus.lastChecked;
 
 export const sources: Record<string, SourceReference> = {
   steamStore: {

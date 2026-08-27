@@ -5,6 +5,7 @@ import test from 'node:test';
 import { achievements } from '../content/achievements';
 import { creatures } from '../content/creatures';
 import { getPageByRoute, seoPages } from '../content/pages';
+import { siteStatus } from '../content/site-status';
 
 const projectFile = (path: string) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
@@ -38,8 +39,8 @@ test('every SEO page has answer-first content and a visible evidence trail', () 
     assert.ok(page.quickAnswer.length >= 100, `${page.route} needs a useful quick answer`);
     assert.ok(page.sections.length >= 4, `${page.route} needs independent page content`);
     assert.ok(page.sources.length >= 2, `${page.route} needs more than one evidence reference`);
-    assert.ok(page.lastUpdated.match(/^2026-08-25$/));
-    assert.equal(page.verifiedPatch, '1.0.9');
+    assert.equal(page.lastUpdated, siteStatus.lastChecked);
+    assert.equal(page.verifiedPatch, siteStatus.verifiedPatch);
     assert.ok(page.updateLog.length >= 1, `${page.route} needs an update log`);
     assert.ok(page.relatedPages.every((route) => route === '/' || route.split('#')[0].endsWith('/')));
   }

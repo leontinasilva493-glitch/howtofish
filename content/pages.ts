@@ -1,9 +1,10 @@
 import type { GuidePage } from './types';
+import { siteStatus } from './site-status';
 
 const shared: Pick<GuidePage, 'lastUpdated' | 'verifiedPatch' | 'updateLog' | 'indexable'> = {
-  lastUpdated: '2026-08-25',
-  verifiedPatch: '1.0.9',
-  updateLog: [{ date: '2026-08-25', note: 'MVP baseline checked against the Steam store, official achievements, and current patch notes.' }],
+  lastUpdated: siteStatus.lastChecked,
+  verifiedPatch: siteStatus.verifiedPatch,
+  updateLog: [{ date: siteStatus.lastChecked, note: 'MVP baseline checked against the Steam store, official achievements, and current patch notes.' }],
   indexable: true,
 };
 
@@ -15,9 +16,9 @@ export const seoPages: GuidePage[] = [
     title: 'How to Fish Game Guide – Walkthrough, Bosses & All Islands', description: 'The complete How to Fish game guide: full walkthrough, all 5 island routes, boss strategies, fish & bait data, all 28 achievements, and patch fixes.', h1: 'How to Fish Game Guide and Wiki', eyebrow: "Dazed Games' How to Fish on Steam",
     quickAnswer: 'Start with the full walkthrough if you do not know what to do next. Use Islands for unlock order, Bosses for triggers and drops, Fish for lure and rod checks, Achievements for the 28-item route, and Fixes or Multiplayer when the game—not progression—is blocking you.',
     contentStatus: 'current', spoilerLevel: 'minor', image: '/assets/how-to-fish/hero-island-v2.webp', imageAlt: 'Castaway fishing beside a washed-up boat on a tropical island in How to Fish',
-    keyFacts: [{ label: 'Current patch', value: '1.0.9' }, { label: 'Released', value: 'August 20, 2026' }, { label: 'Achievements', value: '28 on Steam' }, { label: 'Core co-op', value: '1–4 players' }],
+    keyFacts: [{ label: 'Current patch', value: siteStatus.verifiedPatch }, { label: 'Released', value: 'August 20, 2026' }, { label: 'Achievements', value: '28 on Steam' }, { label: 'Core co-op', value: '1–4 players' }],
     sections: [
-      { id: 'status', title: 'Current game status', paragraphs: ['Patch 1.0.9 is the verification baseline. It added Easy and Hard settings plus a Steam Relay diagnostic. Its save wording is an attempted fix, not a guarantee.'] },
+      { id: 'status', title: 'Current game status', paragraphs: [`Patch ${siteStatus.verifiedPatch} is the verification baseline. It added Easy and Hard settings plus a Steam Relay diagnostic. Its save wording is an attempted fix, not a guarantee.`] },
       { id: 'stuck', title: 'Where are you stuck?', bullets: ['No next objective: open the walkthrough.', 'No next island: check the island order and quest gate.', 'Boss will not spawn: check quest stage, bait, rod, NPC dialogue, and active encounters.', 'Fish will not bite: check reel timing, lure, and rod.', 'Save or join problem: use the status-led troubleshooting pages.'] },
       { id: 'quick-start', title: 'How to Fish quick start: your first five decisions', intro: 'The opening is easier when every catch has a job. Use the current objective and on-screen prompts as the authority for controls, then use this sequence to decide what to do with the catch, your coins, and the next island marker.', steps: [
         `1. Learn the cast-and-reel loop before chasing rare catches. Equip the rod and the lure or bait shown by the current in-game prompt, aim toward the active fishing spot, and make a normal cast. When a catch bites, follow the reeling prompt and watch the line instead of holding one input blindly. The exact keybind can vary by platform or settings, so this guide does not invent a keyboard shortcut. Your first goal is a repeatable, low-risk catch, not a perfect collection entry.`,
@@ -43,7 +44,7 @@ export const seoPages: GuidePage[] = [
       { id: 'verification', title: 'How this wiki verifies claims', paragraphs: ['Official store, patch, and achievement text is labelled Official. Repeatable game observations are Verified In-Game. Forum, Reddit, video, and third-party route details remain Community or Unconfirmed until repeated.'] },
     ],
     faqs: [{ question: 'What should I do first in How to Fish?', answer: 'Follow the opening objective, learn a reliable catch-and-sell loop, and use the walkthrough when the next quest or island gate is unclear.' }, { question: 'How many achievements are there?', answer: 'Steam currently lists 28 achievements.' }],
-    relatedPages: ['/walkthrough/', '/islands/', '/bosses/mutated-bowhead-whale/', '/achievements/', '/fixes/'], sources: ['steamStore', 'steamAchievements', 'patch109'],
+    relatedPages: ['/walkthrough/', '/islands/', '/bosses/mutated-bowhead-whale/', '/achievements/', '/fixes/'], sources: ['steamStore', 'steamAchievements', 'patch109', 'communityGuide', 'islandsGuide'],
   }),
   page({
     route: '/walkthrough/', priority: 'P1', pageType: 'walkthrough', primaryKeyword: 'how to fish game walkthrough', secondaryKeywords: ['how to fish walkthrough', 'how to fish full walkthrough', 'how to beat how to fish game', 'how to fish story guide'],
