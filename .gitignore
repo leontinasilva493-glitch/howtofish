@@ -28,6 +28,7 @@ yarn-error.log*
 # local review and agent artifacts
 /.codex-review/
 /.workbuddy/
+/.worktrees/
 /artifacts/
 
 # local env files

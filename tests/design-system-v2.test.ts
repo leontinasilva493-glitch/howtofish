@@ -58,24 +58,18 @@ test('the global shell matches the compact HTF WIKI reference', async () => {
 });
 
 test('the home page follows the authoritative dashboard section order', async () => {
-  const [home, preview] = await Promise.all([
-    projectFile('components/wiki/HomePage.tsx'),
-    projectFile('components/guide/CreaturePreview.tsx'),
-  ]);
-  const sections = ['hero', 'status', 'stuck', 'featured', 'quick-start', 'islands', 'fish', 'problems', 'faq'];
+  const home = await projectFile('components/wiki/HomePage.tsx');
+  const sections = ['hero', 'status', 'stuck', 'featured', 'guide-content', 'islands', 'problems', 'faq'];
   let previous = -1;
   for (const section of sections) {
     const index = home.indexOf(`data-home-section="${section}"`);
     assert.ok(index > previous, `${section} must appear in the prescribed order`);
     previous = index;
   }
-  for (const label of ['Learn the core loop', 'Know what not to sell', 'Upgrade in the right order', 'Use the Radar', 'Reel differently later']) assert.match(home, new RegExp(label));
-  assert.match(home, /CreaturePreview/);
+  assert.match(home, /HomeGuideBody/);
+  assert.doesNotMatch(home, /CreaturePreview/);
   assert.match(home, /IssueStatusTag/);
   assert.doesNotMatch(home, /title="Browse the How to Fish Wiki"|title="How to Fish Boss Guides"/);
-  assert.match(preview, /Search creatures, rods, bait/);
-  assert.match(preview, /All types/);
-  assert.match(preview, /<table/);
 });
 
 test('Walkthrough uses five chapter cards with a coral final chapter', async () => {
