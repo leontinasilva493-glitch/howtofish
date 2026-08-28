@@ -4,6 +4,7 @@ import test from 'node:test';
 import * as React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
+import { HomeGuideBody } from '../components/wiki/HomeGuideBody';
 import { HomePage } from '../components/wiki/HomePage';
 import { guideMetadata } from '../config/seo';
 import { getPageByRoute } from '../content/pages';
@@ -12,6 +13,10 @@ import { resolveSources } from '../content/sources';
 const projectFile = (path: string) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 const openGraphType = (metadata: Awaited<ReturnType<typeof guideMetadata>>) => (metadata.openGraph as { type?: string } | undefined)?.type;
 (globalThis as typeof globalThis & { React: typeof React }).React = React;
+
+const renderHomeGuide = () => renderToStaticMarkup(React.createElement(HomeGuideBody, { sections: getPageByRoute('/').sections }));
+const visibleText = (markup: string) => markup.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+const wordCount = (text: string) => text.match(/\b[A-Za-z0-9]+(?:[-’'][A-Za-z0-9]+)*\b/g)?.length ?? 0;
 
 test('the homepage owns an answer-first guide with the required player-task sections', () => {
   const home = getPageByRoute('/');
@@ -49,6 +54,25 @@ test('the homepage renders direct guide content and no incomplete fish preview',
   assert.doesNotMatch(home, /CreaturePreview/);
   assert.doesNotMatch(home, /Verified in-game/);
   assert.doesNotMatch(home, /AI-generated/);
+});
+
+test('the homepage direct guide stays within its concise reading budget', () => {
+  const words = wordCount(visibleText(renderHomeGuide()));
+
+  assert.ok(words >= 700, `homepage direct guide needs enough substance; received ${words} words`);
+  assert.ok(words <= 850, `homepage direct guide should stay concise; received ${words} words`);
+});
+
+test('the homepage direct guide names its primary query without stuffing it', () => {
+  const copy = visibleText(renderHomeGuide());
+  const primaryKeywordCount = copy.match(/how to fish game guide/gi)?.length ?? 0;
+
+  assert.ok(primaryKeywordCount >= 1, 'homepage direct guide needs the primary query in its opening content');
+  assert.ok(primaryKeywordCount <= 2, 'homepage direct guide should not repeat the exact primary query');
+});
+
+test('the quick-start list relies on semantic list numbering only', () => {
+  assert.doesNotMatch(renderHomeGuide(), /<li>\s*\d+\.\s/);
 });
 
 test('homepage metadata targets the complete guide query and uses a website OG type', () => {
