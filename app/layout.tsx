@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
 import { Fredoka, Inter } from 'next/font/google';
+import { MicrosoftClarity } from '@/components/analytics/MicrosoftClarity';
 import { SiteHeader } from '@/components/wiki/SiteHeader';
 import { SiteFooter } from '@/components/wiki/SiteFooter';
 import { siteConfig } from '@/config/site';
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteHeader />
         {children}
         <SiteFooter />
+        <MicrosoftClarity />
       </body>
     </html>
   );
