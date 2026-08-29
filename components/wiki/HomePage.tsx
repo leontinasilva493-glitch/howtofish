@@ -37,7 +37,7 @@ const problems: Array<[string, string, IssueState, string, string]> = [
   ['Leeches are not appearing', 'Confirm the three-Leech objective before one controlled reload.', 'still-reported', 'Still reported', '/fixes/leeches-not-spawning/'],
   ['Radar is missing from the inventory', 'Protect the save and inspect the current island shop board.', 'community-workaround', 'Community recovery', '/fixes/missing-radar/'],
   ['Items disappeared after loading a save', 'Patch 1.0.9 attempted a save-corruption fix.', 'attempted-fix', 'Attempted fix', '/fixes/save-autosave/'],
-  ['Black screen when joining a friend', 'Align patches, recreate the lobby, and read Steam Relay status.', 'still-reported', 'Still reported', '/fixes/multiplayer-black-screen/'],
+  ['Black screen when joining a friend', 'Align patches, recreate the lobby, and read Steam Relay status.', 'still-reported', 'Still reported', '/fixes/black-screen/'],
   ['Old Bean achievement route no longer works', 'Patch 1.0.5 closed the old island-skip route.', 'unverified', 'Version-sensitive', '/achievements/bean/'],
 ];
 

@@ -32,12 +32,13 @@ test('every observed legacy live route redirects with HTTP 301 to its closest ca
     ['/guides/first-hour.html', '/islands/lighthouse/'],
     ['/guides/solo-guide.html', '/walkthrough/'],
     ['/guides/troubleshooting.html', '/fixes/'],
+    ['/fixes/multiplayer-black-screen', '/fixes/black-screen/'],
     ['/guides/achievements.html', '/achievements/'],
     ['/media', '/'],
     ['/guides/controls.html', '/tips/'],
     ['/guides/progression.html', '/walkthrough/'],
     ['/guides/how-to-fish.html', '/tips/'],
-    ['/guides/money-and-gambling.html', '/tips/'],
+    ['/guides/money-and-gambling.html', '/gambling/'],
     ['/wiki', '/'],
     ['/wiki/fish.html', '/fish/'],
     ['/wiki/weapons.html', '/tips/'],
@@ -81,14 +82,14 @@ test('fish earnings calculator uses ceiling division and a trick-shot scenario',
   assert.equal(calculator.calculateFishingTrips(0, 500, 0), null);
 });
 
-test('the sitemap publishes the thirty-one canonical P0-P2 routes', async () => {
+test('the sitemap publishes the thirty-three indexable P0-P2 routes', async () => {
   const { default: sitemap } = await import('../app/sitemap');
   const urls = sitemap().map((entry) => new URL(entry.url).pathname);
   assert.deepEqual(urls, [
     '/', '/walkthrough/', '/islands/', '/islands/lighthouse/', '/islands/forest/', '/islands/desert/', '/islands/rocks/', '/islands/volcano/',
-    '/bosses/', '/bosses/mutated-bowhead-whale/', '/achievements/', '/fish/', '/tips/', '/multiplayer/', '/fixes/',
+    '/bosses/', '/bosses/mutated-bowhead-whale/', '/achievements/', '/fish/', '/tips/', '/multiplayer/', '/platforms/', '/gambling/', '/fixes/',
     '/bosses/spider-crab/', '/bosses/giant-piranha/', '/bosses/pufferfish/', '/bosses/albatross/', '/bosses/bowhead-whale/',
-    '/fixes/leeches-not-spawning/', '/fixes/missing-radar/', '/fixes/multiplayer-black-screen/', '/fixes/save-autosave/', '/fixes/error-0x11c7/',
-    '/achievements/bean/', '/achievements/fishipedia/', '/achievements/rich-millionaire/', '/achievements/360-no-scope/', '/achievements/handyman/', '/achievements/everyones-dream/',
+    '/fixes/leeches-not-spawning/', '/fixes/missing-radar/', '/fixes/black-screen/', '/fixes/save-autosave/', '/fixes/error-0x11c7/',
+    '/achievements/bean/', '/achievements/im-the-bird-now/', '/achievements/rich-millionaire/', '/achievements/360-no-scope/', '/achievements/handyman/', '/achievements/everyones-dream/',
   ]);
 });

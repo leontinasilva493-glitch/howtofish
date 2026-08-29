@@ -24,6 +24,8 @@ const expectedRoutes = [
   '/fish/',
   '/tips/',
   '/multiplayer/',
+  '/platforms/',
+  '/gambling/',
   '/fixes/',
   '/bosses/spider-crab/',
   '/bosses/giant-piranha/',
@@ -32,18 +34,24 @@ const expectedRoutes = [
   '/bosses/bowhead-whale/',
   '/fixes/leeches-not-spawning/',
   '/fixes/missing-radar/',
-  '/fixes/multiplayer-black-screen/',
+  '/fixes/black-screen/',
   '/fixes/save-autosave/',
   '/fixes/error-0x11c7/',
   '/achievements/bean/',
+  '/achievements/im-the-bird-now/',
   '/achievements/fishipedia/',
   '/achievements/rich-millionaire/',
   '/achievements/360-no-scope/',
   '/achievements/handyman/',
   '/achievements/everyones-dream/',
+  '/fixes/audio-glitch/',
+  '/tips/bing-bong/',
+  '/tips/coconut-bait/',
+  '/tips/cooking/',
+  '/tips/killscore/',
 ];
 
-test('the P0-P2 release publishes exactly the thirty-one canonical SEO routes', () => {
+test('the P0-P2 content registry publishes exactly the thirty-nine canonical and noindex routes', () => {
   assert.deepEqual(seoPages.map((page) => page.route), expectedRoutes);
   assert.equal(new Set(seoPages.map((page) => page.title)).size, seoPages.length);
   assert.equal(new Set(seoPages.map((page) => page.description)).size, seoPages.length);
@@ -124,6 +132,8 @@ test('P0 and P1 routes use the shared guide system and focused data tools', asyn
     'app/bosses/mutated-bowhead-whale/page.tsx',
     'app/achievements/page.tsx',
     'app/fish/page.tsx',
+    'app/platforms/page.tsx',
+    'app/gambling/page.tsx',
     'app/fixes/page.tsx',
   ];
   const routes = await Promise.all(routeFiles.map(projectFile));
@@ -145,7 +155,7 @@ test('P0 and P1 routes use the shared guide system and focused data tools', asyn
   assert.match(issues, /still-reported/);
 });
 
-test('the second batch has five linked island guides plus support and trust pages', async () => {
+test('the second batch has five linked island guides plus multiplayer and tips pages', async () => {
   const routeFiles = [
     'app/islands/lighthouse/page.tsx',
     'app/islands/forest/page.tsx',
@@ -185,7 +195,8 @@ test('active public discovery files contain only final MVP routes and branding',
   ]);
   assert.match(llms, /\/walkthrough\//);
   assert.match(llms, /\/bosses\/mutated-bowhead-whale\//);
-  assert.doesNotMatch(llms, /\/guides\b|\/wiki\b|\/gambling\b/);
+  assert.match(llms, /\/gambling\//);
+  assert.doesNotMatch(llms, /\/guides\b|\/wiki\b|\/tips\/bing-bong\//);
   assert.match(manifest, /fish-hook\.svg/);
   assert.doesNotMatch(manifest, /android-chrome/);
   assert.match(icon, /<svg/);

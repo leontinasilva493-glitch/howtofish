@@ -6,11 +6,24 @@ from playwright.sync_api import sync_playwright
 BASE = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:3111"
 ROUTES = [
     "/",
+    "/bosses/mutated-bowhead-whale/",
     "/bosses/pufferfish/",
-    "/fixes/error-0x11c7/",
-    "/fish/",
-    "/achievements/",
+    "/achievements/im-the-bird-now/",
     "/achievements/bean/",
+    "/fixes/leeches-not-spawning/",
+    "/fixes/black-screen/",
+    "/multiplayer/",
+    "/platforms/",
+    "/gambling/",
+]
+
+NOINDEX_ROUTES = [
+    "/achievements/fishipedia/",
+    "/fixes/audio-glitch/",
+    "/tips/bing-bong/",
+    "/tips/coconut-bait/",
+    "/tips/cooking/",
+    "/tips/killscore/",
 ]
 
 
@@ -42,6 +55,22 @@ def main():
             check_page(page, route, {"width": 1440, "height": 1000})
             checked.append({"route": route, "viewport": 1440})
 
+        for route in ROUTES[1:9]:
+            page.goto(f"{BASE}{route}", wait_until="networkidle")
+            assert page.locator(".editorial-table").count() >= 2, f"{route} needs evidence and failure tables"
+            assert page.locator(".guide-content-section h2").count() >= 4, f"{route} needs question-led sections"
+
+        for route in ["/bosses/mutated-bowhead-whale/", "/bosses/pufferfish/"]:
+            page.goto(f"{BASE}{route}", wait_until="networkidle")
+            assert page.locator(".guide-video-frame iframe").count() == 1, f"{route} needs one video"
+            assert 2 <= page.locator(".guide-media-gallery figure").count() <= 4, f"{route} needs two to four images"
+
+        for route in NOINDEX_ROUTES:
+            check_page(page, route, {"width": 1440, "height": 1000})
+            robots = page.locator('meta[name="robots"]').get_attribute("content") or ""
+            assert "noindex" in robots.lower(), f"{route} must remain noindex"
+            checked.append({"route": route, "viewport": 1440, "robots": "noindex"})
+
         page.goto(f"{BASE}/fish/", wait_until="networkidle")
         page.locator(".database-search input").fill("Pufferfish")
         assert page.locator("tbody tr").count() == 1, "Fish search must narrow to Pufferfish"
@@ -64,7 +93,7 @@ def main():
             "/bosses/pufferfish/",
             "/fixes/leeches-not-spawning/",
             "/fixes/missing-radar/",
-            "/fixes/multiplayer-black-screen/",
+            "/fixes/black-screen/",
             "/fixes/save-autosave/",
             "/achievements/bean/",
         ]:
@@ -73,7 +102,7 @@ def main():
         mobile = browser.new_page(viewport={"width": 390, "height": 844})
         mobile.on("console", lambda message: console_errors.append(message.text) if message.type == "error" else None)
         mobile.on("pageerror", lambda error: console_errors.append(str(error)))
-        for route in ["/", "/fish/", "/achievements/", "/fixes/multiplayer-black-screen/"]:
+        for route in ["/", "/bosses/pufferfish/", "/fixes/black-screen/", "/platforms/", "/tips/bing-bong/"]:
             check_page(mobile, route, {"width": 390, "height": 844})
             checked.append({"route": route, "viewport": 390})
 
