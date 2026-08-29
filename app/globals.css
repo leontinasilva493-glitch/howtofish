@@ -240,9 +240,13 @@ h1, h2, h3 { text-wrap: balance; }
 .v2-faq summary span::before { content: '+'; color: var(--amber); font-size: 18px; }
 .v2-faq details[open] summary span::before { content: '−'; }
 .v2-faq details p { max-width: 800px; padding: 0 0 16px; color: var(--text-secondary); }
-.v2-source-line { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 18px; color: var(--text-muted); font-size: 12px; line-height: 18px; }
+.v2-source-line { display: grid; gap: 8px; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 18px; color: var(--text-muted); font-size: 12px; line-height: 18px; }
+.v2-source-line p { margin-bottom: 0; }
+.v2-source-intro { max-width: 760px; color: var(--text-secondary); }
+.v2-source-links { display: flex; flex-wrap: wrap; gap: 6px 16px; }
 .v2-source-line a { display: inline-flex; align-items: center; gap: 4px; color: var(--sky); }
 .v2-source-line a svg { width: 12px; }
+.v2-source-date time { color: var(--text-secondary); font-weight: 600; }
 .v2-related { margin-top: 36px; }
 .v2-related > span { color: var(--text-muted); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
 .v2-related > div { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
@@ -512,7 +516,8 @@ h1, h2, h3 { text-wrap: balance; }
   .achievement-meta { grid-column: 2; justify-items: start; }
   .site-footer-top, .site-footer-bottom { align-items: flex-start; flex-direction: column; }
   .footer-inline-links { justify-content: flex-start; }
-  .v2-source-line { align-items: flex-start; flex-direction: column; }
+  .v2-source-line { align-items: start; }
+  .v2-source-links { flex-direction: column; }
 }
 
 @media (prefers-reduced-motion: reduce) {
