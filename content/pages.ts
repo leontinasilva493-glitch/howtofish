@@ -90,7 +90,7 @@ const corePages: GuidePage[] = [
     route: '/islands/lighthouse/', priority: 'P2', pageType: 'island-guide', primaryKeyword: 'how to fish game lighthouse', secondaryKeywords: ['how to fish lighthouse guide', 'how to fish game boat keys', 'how to fish game spider crab', 'how to get radar how to fish game'],
     title: 'How to Fish Lighthouse Guide: Spider Crab & Boat Keys', description: 'Complete the Lighthouse route: work with the keeper, use the Empty Beer Can trigger, return the Spider Crab quest trophy, get Boat Keys, and find Forest.', h1: 'How to Fish Lighthouse and Spider Crab Guide', eyebrow: 'AREA 01 · START',
     quickAnswer: 'In the How to Fish Lighthouse route, finish the keeper’s opening tasks before chasing the first boss. Community routes use a Beer Can or Empty Beer Can to summon the Spider Crab, then return its quest trophy for Boat Keys. Get the Radar after the hand-in; Forest appears as a green marker roughly northwest.',
-    contentStatus: 'version-sensitive', spoilerLevel: 'minor', image: '/assets/how-to-fish/steam-shop.jpg', imageAlt: 'Official How to Fish screenshot of a player using an island shop counter',
+    contentStatus: 'version-sensitive', spoilerLevel: 'minor', image: '/assets/how-to-fish/steam-shop.webp', imageAlt: 'Official How to Fish screenshot of a player using an island shop counter',
     keyFacts: [{ label: 'Current objective', value: 'Help the Lighthouse Keeper' }, { label: 'Boss trigger lead', value: 'Empty Beer Can' }, { label: 'Keep', value: 'Spider Crab quest trophy' }, { label: 'Next coordinate', value: 'Green marker · northwest' }],
     sections: [
       { id: 'arrival-goal', title: 'What is your goal when you arrive at Lighthouse?', intro: 'The opening objective is to learn the catch, sell, equip, and hand-in loop while helping the Lighthouse Keeper. Steam’s official “Who stole my beer” achievement confirms the destination of the quest: find the culprit and bring it to the keeper.', paragraphs: [
@@ -138,8 +138,8 @@ const corePages: GuidePage[] = [
       { symptom: 'Forest is not on the Radar', likelyState: 'The keys were awarded but the Radar step is incomplete, or the destination marker has not refreshed.', nextStep: 'Check the keeper/shop Radar interaction, re-equip or place the Radar, then look for the green marker roughly northwest.' },
     ],
     media: { gallery: [
-      { src: '/assets/how-to-fish/steam-catch.jpg', alt: 'Official How to Fish gameplay screenshot showing a fresh catch beside an island shop', caption: 'Real gameplay context for the opening catch-and-sell loop; the image does not identify a quest trigger.', sourceId: 'steamMedia' },
-      { src: '/assets/how-to-fish/steam-gear.jpg', alt: 'Official How to Fish first-person screenshot showing equipped combat gear by the sea', caption: 'Real equipment view for pre-boss preparation; exact loadouts remain player choices.', sourceId: 'steamMedia' },
+      { src: '/assets/how-to-fish/steam-catch.webp', alt: 'Official How to Fish gameplay screenshot showing a fresh catch beside an island shop', caption: 'Real gameplay context for the opening catch-and-sell loop; the image does not identify a quest trigger.', sourceId: 'steamMedia' },
+      { src: '/assets/how-to-fish/steam-gear.webp', alt: 'Official How to Fish first-person screenshot showing equipped combat gear by the sea', caption: 'Real equipment view for pre-boss preparation; exact loadouts remain player choices.', sourceId: 'steamMedia' },
     ] },
     faqs: [
       { question: 'Where do I get the Radar on Lighthouse?', answer: 'Community routes place the Radar at the keeper area after the Spider Crab hand-in. Complete the current objective and confirm Boat Keys first; prices and prompts may differ by patch.' },
@@ -152,7 +152,7 @@ const corePages: GuidePage[] = [
     route: '/islands/forest/', priority: 'P2', pageType: 'island-guide', primaryKeyword: 'how to fish game forest island', secondaryKeywords: ['how to fish forest guide', 'how to get leeches how to fish game', 'how to fish giant piranha', 'how to fish dinnertime achievement'],
     title: 'How to Fish Forest Guide: Leeches & Giant Piranha', description: 'Complete the Forest route: find three leeches, get the Modified Leech, defeat Giant Piranha, return its quest trophy, and find Desert.', h1: 'How to Fish Forest and Giant Piranha Guide', eyebrow: 'AREA 02 · FOREST',
     quickAnswer: 'In the How to Fish Forest route, find the lady by the lake and complete her dinner request before summoning Giant Piranha. Community routes use three ground leeches to obtain a Modified Leech, then return the marked tail or skeleton trophy. Desert appears on a yellow Radar marker west to northwest after the hand-in.',
-    contentStatus: 'version-sensitive', spoilerLevel: 'minor', image: '/assets/how-to-fish/steam-quest.jpg', imageAlt: 'Official How to Fish screenshot of a player speaking to an island NPC beside a lure and weapon board',
+    contentStatus: 'version-sensitive', spoilerLevel: 'minor', image: '/assets/how-to-fish/steam-quest.webp', imageAlt: 'Official How to Fish screenshot of a player speaking to an island NPC beside a lure and weapon board',
     keyFacts: [{ label: 'Current objective', value: 'Help the lady by the lake' }, { label: 'Boss trigger lead', value: 'Modified Leech' }, { label: 'Keep', value: 'Giant Piranha quest trophy' }, { label: 'Next coordinate', value: 'Yellow marker · westward' }],
     sections: [
       { id: 'arrival-goal', title: 'What is your goal when you arrive in Forest?', intro: 'Go to the lady by the lake before searching the whole island. Steam’s official Dinnertime achievement confirms that the Forest story objective is to catch dinner for her, but the achievement does not publish the required items or boss trigger.', paragraphs: [
@@ -201,8 +201,8 @@ const corePages: GuidePage[] = [
       { symptom: 'The Desert marker is missing', likelyState: 'The final hand-in dialogue did not advance or the Radar has not refreshed.', nextStep: 'Return to the lady, verify the trophy is accepted, then reopen the Radar and look for the yellow marker westward.' },
     ],
     media: { gallery: [
-      { src: '/assets/how-to-fish/steam-quest.jpg', alt: 'Official How to Fish gameplay screenshot showing an NPC beside a forest hut and equipment board', caption: 'Real NPC and equipment-board context; the screenshot does not prove the leech locations.', sourceId: 'steamMedia' },
-      { src: '/assets/how-to-fish/steam-catch.jpg', alt: 'Official How to Fish gameplay screenshot of one player landing a fish while another prepares a weapon', caption: 'Real co-op catch and combat context for preparing before a boss trigger.', sourceId: 'steamMedia' },
+      { src: '/assets/how-to-fish/steam-quest.webp', alt: 'Official How to Fish gameplay screenshot showing an NPC beside a forest hut and equipment board', caption: 'Real NPC and equipment-board context; the screenshot does not prove the leech locations.', sourceId: 'steamMedia' },
+      { src: '/assets/how-to-fish/steam-catch.webp', alt: 'Official How to Fish gameplay screenshot of one player landing a fish while another prepares a weapon', caption: 'Real co-op catch and combat context for preparing before a boss trigger.', sourceId: 'steamMedia' },
     ] },
     faqs: [
       { question: 'How do I unlock Dinnertime?', answer: 'Steam says to catch dinner for the lady in the forest. Community routes use three leeches, a Modified Leech, Giant Piranha, and the final marked trophy hand-in.' },
@@ -215,7 +215,7 @@ const corePages: GuidePage[] = [
     route: '/islands/desert/', priority: 'P2', pageType: 'island-guide', primaryKeyword: 'how to fish game desert island', secondaryKeywords: ['how to fish desert guide', 'how to fish pufferfish', 'how to fish carrot bait', 'how to fish endangered fish'],
     title: 'How to Fish Desert Guide: Pufferfish & Carrot Bait', description: 'Complete the Desert route: help the tourist, earn the Carrot, defeat Pufferfish, return its fin, unlock Rocks, and open the optional grill.', h1: 'How to Fish Desert and Pufferfish Guide', eyebrow: 'AREA 03 · DESERT',
     quickAnswer: 'In the How to Fish Desert route, help the tourist under the tree with an endangered catch, keep the Carrot, use it to trigger Pufferfish, and return the Pufferfish fin. Rocks then appears as a red Radar marker west. Grillmaster is a separate facility quest: return Blue Shark for the lighter and grill access.',
-    contentStatus: 'version-sensitive', spoilerLevel: 'minor', image: '/assets/how-to-fish/steam-pufferfish.jpg', imageAlt: 'Official How to Fish gameplay screenshot of players fighting the Pufferfish boss',
+    contentStatus: 'version-sensitive', spoilerLevel: 'minor', image: '/assets/how-to-fish/steam-pufferfish.webp', imageAlt: 'Official How to Fish gameplay screenshot of players fighting the Pufferfish boss',
     keyFacts: [{ label: 'Current objective', value: 'Help the tourist swim' }, { label: 'Boss trigger lead', value: 'Carrot' }, { label: 'Keep', value: 'Pufferfish fin' }, { label: 'Next coordinate', value: 'Red marker · west' }],
     sections: [
       { id: 'arrival-goal', title: 'What is your goal when you arrive in Desert?', intro: 'Desert has two useful NPC routes, but only the tourist route unlocks the next island. Steam officially confirms the Vacation objective to help the tourist swim and the Grillmaster objective to start the grill; it does not publish the required fish, bait, boss, or hand-in order.', paragraphs: [
@@ -270,8 +270,8 @@ const corePages: GuidePage[] = [
       { symptom: 'Rocks is missing from the Radar', likelyState: 'The Pufferfish fin has not been accepted or the destination marker has not refreshed.', nextStep: 'Return the marked fin to the tourist, exhaust dialogue, then reopen the Radar and look for the red marker westward.' },
     ],
     media: { gallery: [
-      { src: '/assets/how-to-fish/steam-grill.jpg', alt: 'Official How to Fish gameplay screenshot of players and a seagull beside an active grill', caption: 'Real grill facility context; the screenshot does not establish the Blue Shark quest sequence.', sourceId: 'steamMedia' },
-      { src: '/assets/how-to-fish/steam-pufferfish.jpg', alt: 'Official How to Fish gameplay screenshot of the Pufferfish boss during combat', caption: 'Real Pufferfish encounter view; visible damage numbers are not used as fixed boss statistics.', sourceId: 'steamMedia' },
+      { src: '/assets/how-to-fish/steam-grill.webp', alt: 'Official How to Fish gameplay screenshot of players and a seagull beside an active grill', caption: 'Real grill facility context; the screenshot does not establish the Blue Shark quest sequence.', sourceId: 'steamMedia' },
+      { src: '/assets/how-to-fish/steam-pufferfish.webp', alt: 'Official How to Fish gameplay screenshot of the Pufferfish boss during combat', caption: 'Real Pufferfish encounter view; visible damage numbers are not used as fixed boss statistics.', sourceId: 'steamMedia' },
     ] },
     faqs: [
       { question: 'Was Pufferfish changed?', answer: 'Yes. Patch 1.0.4 says Pufferfish was nerfed, but it does not publish exact health, damage, or timing values.' },
@@ -284,7 +284,7 @@ const corePages: GuidePage[] = [
     route: '/islands/rocks/', priority: 'P2', pageType: 'island-guide', primaryKeyword: 'how to fish game rocks island', secondaryKeywords: ['how to fish rocks guide', 'how to fish tuna', 'how to fish terrorizing bird', 'how to fish albatross boss'],
     title: 'How to Fish Rocks Guide: Tuna & Terrorizing Bird', description: 'Complete the Rocks route: help the scared islanders, catch and place Tuna, defeat Albatross, return its head, and follow the Volcano marker.', h1: 'How to Fish Rocks and Terrorizing Bird Guide', eyebrow: 'AREA 04 · ROCKS',
     quickAnswer: 'In the How to Fish Rocks route, speak to the scared islanders before using a Professional Boss Lure for Tuna. Community routes say to place the defeated Tuna on the ground, wait for Albatross, then return the bird’s head to the shop NPC. Volcano appears as a pink Radar marker directly north after the hand-in.',
-    contentStatus: 'version-sensitive', spoilerLevel: 'minor', image: '/assets/how-to-fish/steam-seagull.jpg', imageAlt: 'Official How to Fish gameplay screenshot of a player lifted among palm trees while holding a fishing rod',
+    contentStatus: 'version-sensitive', spoilerLevel: 'minor', image: '/assets/how-to-fish/steam-seagull.webp', imageAlt: 'Official How to Fish gameplay screenshot of a player lifted among palm trees while holding a fishing rod',
     keyFacts: [{ label: 'Current objective', value: 'Defend the scared islanders' }, { label: 'Boss trigger lead', value: 'Tuna placed on ground' }, { label: 'Keep', value: 'Albatross head' }, { label: 'Next coordinate', value: 'Pink marker · north' }],
     sections: [
       { id: 'arrival-goal', title: 'What is your goal when you arrive on Rocks?', intro: 'Go to the shop and finish the dialogue about the large bird before fishing for the trigger. Steam’s official Terrorizing bird achievement confirms the story goal—defend the scared islanders—but does not name Albatross, Tuna, a lure, or the hand-in item.', paragraphs: [
@@ -337,8 +337,8 @@ const corePages: GuidePage[] = [
       { symptom: 'Volcano is missing from the Radar', likelyState: 'The head hand-in dialogue did not finish or the destination marker has not refreshed.', nextStep: 'Return to the shop NPC, exhaust dialogue, reopen the Radar, and look for the pink marker directly north.' },
     ],
     media: { gallery: [
-      { src: '/assets/how-to-fish/steam-seagull.jpg', alt: 'Official How to Fish gameplay screenshot of a player suspended among palm trees with a fishing rod', caption: 'Real large-bird gameplay context; this official image shows a seagull interaction, not proof of the Albatross trigger.', sourceId: 'steamMedia' },
-      { src: '/assets/how-to-fish/steam-gear.jpg', alt: 'Official How to Fish first-person screenshot showing a large equipped weapon near the shoreline', caption: 'Real ranged-equipment context; the game does not require this exact weapon for Albatross.', sourceId: 'steamMedia' },
+      { src: '/assets/how-to-fish/steam-seagull.webp', alt: 'Official How to Fish gameplay screenshot of a player suspended among palm trees with a fishing rod', caption: 'Real large-bird gameplay context; this official image shows a seagull interaction, not proof of the Albatross trigger.', sourceId: 'steamMedia' },
+      { src: '/assets/how-to-fish/steam-gear.webp', alt: 'Official How to Fish first-person screenshot showing a large equipped weapon near the shoreline', caption: 'Real ranged-equipment context; the game does not require this exact weapon for Albatross.', sourceId: 'steamMedia' },
     ] },
     faqs: [
       { question: 'Is Terrorizing bird an official achievement?', answer: 'Yes. Steam says to defend the scared islanders, but it does not publish the Tuna trigger, Albatross name, or head hand-in.' },
@@ -351,7 +351,7 @@ const corePages: GuidePage[] = [
     route: '/islands/volcano/', priority: 'P2', pageType: 'island-guide', primaryKeyword: 'how to fish game volcano island', secondaryKeywords: ['how to fish volcano guide', 'how to fish military island', 'how to fish bowhead whale', 'how to fish final island'],
     title: 'How to Fish Volcano Guide: Bowhead Whale & Ending', description: 'Complete Volcano: help the hazmat scientist, earn Fish Bucket, defeat Bowhead Whale and its mutation, return the final trophy, and reach the mainland.', h1: 'How to Fish Volcano and Bowhead Whale Guide', eyebrow: 'AREA 05 · VOLCANO',
     quickAnswer: 'In the How to Fish Volcano route, complete the yellow hazmat scientist’s five-fish request and keep the Fish Bucket for Bowhead Whale. Preserve the Whale body, carry it up the wooden planks, and throw it into the volcano to start Mutated Bowhead Whale. Return the final tail or fin for RHIB keys and the mainland ending.',
-    contentStatus: 'version-sensitive', spoilerLevel: 'full', image: '/assets/how-to-fish/steam-gear.jpg', imageAlt: 'Official How to Fish first-person gameplay screenshot showing late-game combat equipment by the sea',
+    contentStatus: 'version-sensitive', spoilerLevel: 'full', image: '/assets/how-to-fish/steam-gear.webp', imageAlt: 'Official How to Fish first-person gameplay screenshot showing late-game combat equipment by the sea',
     keyFacts: [{ label: 'Current objective', value: 'Hazmat scientist + military route' }, { label: 'Boss trigger lead', value: 'Fish Bucket' }, { label: 'Keep', value: 'Both Whale quest results' }, { label: 'Next destination', value: 'RHIB to mainland' }],
     failureHeading: 'Why has the ending route not unlocked?',
     sections: [
@@ -412,8 +412,8 @@ const corePages: GuidePage[] = [
       { symptom: 'The RHIB will not start', likelyState: 'The key reward or final objective transition is incomplete, or the wrong boat is being used.', nextStep: 'Verify RHIB or military boat keys, recheck the scientist dialogue, then follow the objective to the mainland boat.' },
     ],
     media: { gallery: [
-      { src: '/assets/how-to-fish/steam-gear.jpg', alt: 'Official How to Fish gameplay screenshot showing a large equipped weapon near the ocean', caption: 'Real late-game equipment context; this exact weapon is not required by the official achievements.', sourceId: 'steamMedia' },
-      { src: '/assets/how-to-fish/steam-grill.jpg', alt: 'Official How to Fish gameplay screenshot showing an active grill beside the sea', caption: 'Real cooking-facility context; it is not a Volcano lava screenshot and does not prove the lava-cooking route.', sourceId: 'steamMedia' },
+      { src: '/assets/how-to-fish/steam-gear.webp', alt: 'Official How to Fish gameplay screenshot showing a large equipped weapon near the ocean', caption: 'Real late-game equipment context; this exact weapon is not required by the official achievements.', sourceId: 'steamMedia' },
+      { src: '/assets/how-to-fish/steam-grill.webp', alt: 'Official How to Fish gameplay screenshot showing an active grill beside the sea', caption: 'Real cooking-facility context; it is not a Volcano lava screenshot and does not prove the lava-cooking route.', sourceId: 'steamMedia' },
     ] },
     faqs: [
       { question: 'Was Bowhead Whale changed?', answer: 'Patch 1.0.4 says Whale was nerfed, but it does not publish exact health, damage, or timing values.' },

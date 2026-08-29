@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import type { GuidePage } from '@/content/types';
 import { resolveSources } from '@/content/sources';
 import { FaqAccordion, GuideHeader, RelatedGuideChips, SourceLine } from './DesignSystem';
-import { GuideSections } from './EditorialBlocks';
+import { GuideSections, MobilePageNav } from './EditorialBlocks';
 import { GuideStructuredData } from './StructuredData';
 
 const chapters = [
@@ -15,5 +15,5 @@ const chapters = [
 ] as const;
 
 export function WalkthroughPageView({ page }: { page: GuidePage }) {
-  return <main className="core-page walkthrough-page"><div className="wiki-container"><GuideHeader page={page} tone="walkthrough" /><section className="chapter-list" aria-label="Walkthrough chapter shortcuts">{chapters.map(([number, title, copy, label, href], index) => <article className={`chapter-card ${index === chapters.length - 1 ? 'chapter-card-final' : ''}`} key={href}><span>{number}</span><div><h3>{title}</h3><p>{copy}</p><Link href={href}>{label}<ArrowRight aria-hidden="true" /></Link></div></article>)}</section><GuideSections sections={page.sections} /><FaqAccordion title="How to Fish Walkthrough FAQ" items={page.faqs} /><RelatedGuideChips routes={[{ label: 'All Islands', href: '/islands/' }, { label: 'All Bosses', href: '/bosses/' }, { label: 'Fixes', href: '/fixes/' }, { label: 'Final Boss', href: '/bosses/mutated-bowhead-whale/' }]} /><SourceLine sources={resolveSources(page.sources)} lastUpdated={page.lastUpdated} /></div><GuideStructuredData page={page} /></main>;
+  return <main className="core-page walkthrough-page"><div className="wiki-container"><GuideHeader page={page} tone="walkthrough" /><MobilePageNav page={page} extraItems={[{ href: '#chapter-shortcuts', label: 'Chapter shortcuts' }]} /><section className="chapter-list" id="chapter-shortcuts" aria-label="Walkthrough chapter shortcuts">{chapters.map(([number, title, copy, label, href], index) => <article className={`chapter-card ${index === chapters.length - 1 ? 'chapter-card-final' : ''}`} key={href}><span>{number}</span><div><h3>{title}</h3><p>{copy}</p><Link href={href}>{label}<ArrowRight aria-hidden="true" /></Link></div></article>)}</section><GuideSections sections={page.sections} /><FaqAccordion title="How to Fish Walkthrough FAQ" items={page.faqs} /><RelatedGuideChips routes={[{ label: 'All Islands', href: '/islands/' }, { label: 'All Bosses', href: '/bosses/' }, { label: 'Fixes', href: '/fixes/' }, { label: 'Final Boss', href: '/bosses/mutated-bowhead-whale/' }]} /><SourceLine sources={resolveSources(page.sources)} lastUpdated={page.lastUpdated} /></div><GuideStructuredData page={page} /></main>;
 }

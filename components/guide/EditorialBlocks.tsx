@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import type { EvidenceRow, FailureBranch, GuideMedia, GuideSection } from '@/content/types';
+import type { EvidenceRow, FailureBranch, GuideMedia, GuidePage, GuideSection } from '@/content/types';
 import { sources } from '@/content/sources';
 import { GuideCallout } from './DesignSystem';
 
@@ -20,15 +20,28 @@ export function GuideSections({ sections }: { sections: GuideSection[] }) {
   );
 }
 
+export function MobilePageNav({ page, extraItems = [] }: { page: GuidePage; extraItems?: Array<{ href: string; label: string }> }) {
+  const items = [
+    ...extraItems,
+    ...page.sections.map((section) => ({ href: `#${section.id}`, label: section.title })),
+    ...(page.evidenceRows?.length ? [{ href: '#evidence-split-title', label: 'Official and community evidence' }] : []),
+    ...(page.failureBranches?.length ? [{ href: '#failure-branch-title', label: page.failureHeading || 'Troubleshooting branches' }] : []),
+    ...(page.media?.gallery.length ? [{ href: '#guide-media-title', label: 'Official screenshots' }] : []),
+    ...(page.faqs.length ? [{ href: '#faq', label: 'FAQ' }] : []),
+  ];
+  if (!items.length) return null;
+  return <details className="mobile-page-nav"><summary><span>On this page</span><small>{items.length} sections</small></summary><nav aria-label="On this page">{items.map((item) => <a href={item.href} key={item.href}>{item.label}</a>)}</nav></details>;
+}
+
 export function EvidenceSplitTable({ rows }: { rows?: EvidenceRow[] }) {
   if (!rows?.length) return null;
   return (
     <section className="editorial-table-section" aria-labelledby="evidence-split-title">
       <h2 id="evidence-split-title">What is official, and what is community-documented?</h2>
-      <div className="table-scroll">
+      <div className="table-scroll responsive-table-region" role="region" aria-label="Official and community evidence comparison" tabIndex={0}>
         <table className="guide-table editorial-table">
           <thead><tr><th>Topic</th><th>Official fact</th><th>Community route</th><th>Safe guidance</th></tr></thead>
-          <tbody>{rows.map((row) => <tr key={row.topic}><th scope="row">{row.topic}</th><td>{row.official}</td><td>{row.community}</td><td>{row.guidance}</td></tr>)}</tbody>
+          <tbody>{rows.map((row) => <tr key={row.topic}><th scope="row">{row.topic}</th><td data-label="Official fact">{row.official}</td><td data-label="Community route">{row.community}</td><td data-label="Safe guidance">{row.guidance}</td></tr>)}</tbody>
         </table>
       </div>
     </section>
@@ -40,10 +53,10 @@ export function FailureBranchTable({ rows, title = 'Why has the next island not 
   return (
     <section className="editorial-table-section" aria-labelledby="failure-branch-title">
       <h2 id="failure-branch-title">{title}</h2>
-      <div className="table-scroll">
+      <div className="table-scroll responsive-table-region" role="region" aria-label="Troubleshooting branches" tabIndex={0}>
         <table className="guide-table editorial-table">
           <thead><tr><th>What you see</th><th>Likely state</th><th>Next safe step</th></tr></thead>
-          <tbody>{rows.map((row) => <tr key={row.symptom}><th scope="row">{row.symptom}</th><td>{row.likelyState}</td><td>{row.nextStep}</td></tr>)}</tbody>
+          <tbody>{rows.map((row) => <tr key={row.symptom}><th scope="row">{row.symptom}</th><td data-label="Likely state">{row.likelyState}</td><td data-label="Next safe step">{row.nextStep}</td></tr>)}</tbody>
         </table>
       </div>
     </section>

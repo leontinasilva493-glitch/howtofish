@@ -11,16 +11,29 @@ import { getPageByRoute } from '../content/pages';
 
 const projectFile = (path: string) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
+function contrastRatio(foreground: string, background: string) {
+  const luminance = (hex: string) => {
+    const channels = hex.slice(1).match(/../g)?.map((value) => Number.parseInt(value, 16) / 255) ?? [];
+    const linear = channels.map((value) => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+    return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+  };
+  const left = luminance(foreground);
+  const right = luminance(background);
+  return (Math.max(left, right) + 0.05) / (Math.min(left, right) + 0.05);
+}
+
 test('reef-dark v2 exposes the authoritative tokens and flat card geometry', async () => {
   const css = await projectFile('app/globals.css');
   const tokens = [
     ['--bg-primary', '#081C2A'], ['--bg-secondary', '#0B2536'], ['--bg-card', '#0F2E42'],
     ['--bg-elevated', '#15405A'], ['--bg-footer', '#051521'], ['--border', '#1D4358'],
     ['--border-strong', '#2E5D78'], ['--text-primary', '#E9F3F8'], ['--text-secondary', '#A3C0CE'],
-    ['--text-muted', '#628596'], ['--amber', '#FFB84D'], ['--coral', '#FF7A59'],
+    ['--amber', '#FFB84D'], ['--coral', '#FF7A59'],
     ['--teal', '#2DD4BF'], ['--sky', '#38BDF8'], ['--danger', '#F05A5A'],
   ];
   for (const [name, value] of tokens) assert.match(css, new RegExp(`${name}:\\s*${value}`, 'i'));
+  const muted = css.match(/--text-muted:\s*(#[0-9A-F]{6})/i)?.[1];
+  assert.ok(muted && contrastRatio(muted, '#0F2E42') >= 4.5, 'muted text must meet WCAG AA on reef cards');
   assert.match(css, /--wiki-container:\s*1200px/);
   assert.match(css, /\[data-theme='reef-dark'\][\s\S]*--wiki-shadow:\s*none/);
   assert.match(css, /\.wiki-card-link:hover[\s\S]*translateY\(-2px\)/);
@@ -49,7 +62,7 @@ test('homepage keeps its commissioned art while island guides may use source-lab
     assert.ok(info.size > 20_000, `${file} must be a real project asset`);
   }
   const lighthouse = getPageByRoute('/islands/lighthouse/');
-  assert.match(lighthouse.image ?? '', /^\/assets\/how-to-fish\/steam-[^/]+\.jpg$/);
+  assert.match(lighthouse.image ?? '', /^\/assets\/how-to-fish\/steam-[^/]+\.webp$/);
   assert.ok(lighthouse.sources.includes('steamMedia'));
   assert.match(sourceRegistry, /steamMedia[\s\S]*sourceLevel:\s*'official'/);
   assert.match(site, /hero-island-v2\.webp/);
@@ -63,7 +76,9 @@ test('the global shell matches the compact HTF WIKI reference', async () => {
   assert.match(header, /HTF WIKI/);
   assert.match(header, /usePathname/);
   assert.match(header, /aria-current/);
-  assert.doesNotMatch(header, /ThemeToggle|WikiSearchDialog/);
+  assert.match(header, /ThemeToggle/);
+  assert.match(header, /WikiSearchDialog/);
+  assert.match(header, /SheetContent/);
   assert.match(footer, /footer-inline-links/);
   assert.doesNotMatch(footer, /title:\s*'PROGRESS'|title:\s*'COMPLETE'|title:\s*'SUPPORT'/);
 });

@@ -1,10 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { Menu, X } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { siteConfig } from '@/config/site';
+import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { ThemeToggle } from './ThemeToggle';
+import { WikiSearchDialog } from './WikiSearchDialog';
 
 const links = [
   { label: 'Walkthrough', href: '/walkthrough/' },
@@ -16,17 +19,17 @@ const links = [
 ];
 
 export function SiteHeader() {
-  const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const pathname = usePathname() || '/';
+  const [mobileOpen, setMobileOpen] = useState(false);
   const isActive = (href: string) => pathname === href || pathname.startsWith(href) && href !== '/';
+  const mobileLinks = [...links, { label: 'Multiplayer', href: '/multiplayer/' }, { label: 'Tips', href: '/tips/' }];
 
   return <header className="site-header">
     <div className="wiki-container site-header-inner">
-      <Link href="/" className="site-logo" onClick={() => setOpen(false)} aria-label="HTF Wiki home">HTF WIKI</Link>
+      <Link href="/" className="site-logo" aria-label="HTF Wiki home">HTF WIKI</Link>
       <nav className="site-nav" aria-label="Primary navigation">{links.map((link) => <Link key={link.href} href={link.href} className="site-nav-link" aria-current={isActive(link.href) ? 'page' : undefined}>{link.label}</Link>)}</nav>
-      <a className="wiki-button wiki-button-primary site-steam-cta" href={siteConfig.links.game} target="_blank" rel="noopener noreferrer">View on Steam</a>
-      <button className="site-menu-button" onClick={() => setOpen((current) => !current)} aria-label={open ? 'Close navigation' : 'Open navigation'} aria-expanded={open} aria-controls="mobile-navigation" type="button">{open ? <X /> : <Menu />}</button>
+      <div className="site-header-actions"><WikiSearchDialog /><ThemeToggle /><a className="wiki-button wiki-button-primary site-steam-cta" href={siteConfig.links.game} target="_blank" rel="noopener noreferrer">View on Steam</a></div>
+      <div className="site-mobile-actions"><Sheet open={mobileOpen} onOpenChange={setMobileOpen}><SheetTrigger asChild><button className="site-menu-button" aria-label="Open navigation" type="button"><Menu aria-hidden="true" /></button></SheetTrigger><SheetContent className="mobile-navigation-sheet !border-wiki-border !bg-wiki-bg text-wiki-primary" side="right"><SheetHeader className="pr-10 text-left"><SheetTitle className="font-display text-xl text-wiki-primary">Browse HTF Wiki</SheetTitle><SheetDescription className="text-wiki-secondary">Search an answer or open a canonical guide.</SheetDescription></SheetHeader><div className="mobile-navigation-tools"><WikiSearchDialog expanded onNavigate={() => setMobileOpen(false)} /><ThemeToggle expanded /></div><nav className="mobile-navigation" aria-label="Mobile navigation">{mobileLinks.map((link) => <SheetClose asChild key={link.href}><Link href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>{link.label}</Link></SheetClose>)}<SheetClose asChild><a href={siteConfig.links.game} target="_blank" rel="noopener noreferrer">View on Steam</a></SheetClose></nav></SheetContent></Sheet></div>
     </div>
-    {open ? <nav id="mobile-navigation" className="mobile-navigation" aria-label="Mobile navigation">{[...links, { label: 'Multiplayer', href: '/multiplayer/' }, { label: 'Tips', href: '/tips/' }].map((link) => <Link key={link.href} href={link.href} onClick={() => setOpen(false)} aria-current={isActive(link.href) ? 'page' : undefined}>{link.label}</Link>)}<a href={siteConfig.links.game} target="_blank" rel="noopener noreferrer">View on Steam</a></nav> : null}
   </header>;
 }

@@ -5,6 +5,16 @@ const nextConfig = {
     ignoreDuringBuilds: false,
   },
   images: { unoptimized: true },
+  async headers() {
+    return [
+      {
+        source: '/assets/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       { source: '/guides/beginner-guide.html', destination: '/', statusCode: 301 },
