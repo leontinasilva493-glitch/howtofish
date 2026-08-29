@@ -6,6 +6,8 @@ export type AccentTone = 'walkthrough' | 'boss' | 'fish' | 'wiki';
 export type VerificationKind = 'official' | 'verified' | 'patch' | 'community' | 'unconfirmed' | 'version-sensitive';
 export type IssueState = 'official-fix' | 'officially-acknowledged' | 'attempted-fix' | 'community-workaround' | 'still-reported' | 'unverified';
 
+const officialSourceDomains = ['steampowered.com', 'steamcommunity.com', 'dazed.games', 'microsoft.com'];
+
 const verification: Record<VerificationKind, { label: string; icon: typeof BadgeCheck }> = {
   official: { label: 'Official', icon: ShieldCheck },
   verified: { label: 'Verified In-Game', icon: CheckCircle2 },
@@ -66,8 +68,26 @@ export function FaqAccordion({ title, items }: { title: string; items: Array<{ q
   return <section className="v2-faq" id="faq"><div className="v2-kicker v2-kicker-wiki">FAQ</div><h2>{title}</h2><div>{items.map((item) => <details key={item.question}><summary>{item.question}<span aria-hidden="true" /></summary><p>{item.answer}</p></details>)}</div></section>;
 }
 
+function sourceLineReferences(sources: SourceReference[]) {
+  const officialSources = sources.filter((source) => {
+    if (source.sourceLevel !== 'official') return false;
+    const hostname = new URL(source.url).hostname.toLowerCase();
+    return officialSourceDomains.some((domain) => hostname === domain || hostname.endsWith(`.${domain}`));
+  });
+  const mediaSources = sources.filter((source) => !officialSources.includes(source) && source.sourceType === 'media-guide');
+  const seenUrls = new Set<string>();
+
+  return [...officialSources, ...mediaSources].filter((source) => {
+    if (seenUrls.has(source.url)) return false;
+    seenUrls.add(source.url);
+    return true;
+  }).slice(0, 3);
+}
+
 export function SourceLine({ sources, lastUpdated }: { sources: SourceReference[]; lastUpdated: string }) {
-  return <div className="v2-source-line"><span>Sources:</span>{sources.map((source) => <a href={source.url} target="_blank" rel="noopener noreferrer" key={source.id}>{source.label}<ExternalLink aria-hidden="true" /></a>)}<span>Last verified {lastUpdated}.</span></div>;
+  const displaySources = sourceLineReferences(sources);
+
+  return <aside className="v2-source-line" aria-label="Official and authoritative media sources"><p className="v2-source-intro">Information is sourced from the official channels and authoritative media below and cross-verified across multiple references.</p><div className="v2-source-links">{displaySources.map((source) => <a href={source.url} target="_blank" rel="noopener noreferrer" key={source.id}>{source.label}<ExternalLink aria-hidden="true" /></a>)}</div><p className="v2-source-date">Verification date: <time dateTime={lastUpdated}>{lastUpdated}</time> — based on this page&apos;s latest update.</p></aside>;
 }
 
 export function RelatedGuideChips({ routes }: { routes: Array<{ label: string; href: string }> }) {
