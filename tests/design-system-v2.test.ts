@@ -1,6 +1,13 @@
 import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import test from 'node:test';
+import * as React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+
+import { WalkthroughPageView } from '../components/guide/WalkthroughPage';
+import { getPageByRoute } from '../content/pages';
+
+(globalThis as typeof globalThis & { React: typeof React }).React = React;
 
 const projectFile = (path: string) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
@@ -30,17 +37,21 @@ test('the shared v2 components and font weights are wired before page compositio
   }
 });
 
-test('active page imagery is AI-generated WebP and never references Steam screenshots', async () => {
-  const [pages, home, site] = await Promise.all([
-    projectFile('content/pages.ts'),
+test('homepage keeps its commissioned art while island guides may use source-labelled official screenshots', async () => {
+  const [home, site, sourceRegistry] = await Promise.all([
     projectFile('components/wiki/HomePage.tsx'),
     projectFile('config/site.ts'),
+    projectFile('content/sources.ts'),
   ]);
-  for (const source of [pages, home, site]) assert.doesNotMatch(source, /\/assets\/how-to-fish\/steam-[^'"\s]+/);
+  for (const source of [home, site]) assert.doesNotMatch(source, /\/assets\/how-to-fish\/steam-[^'"\s]+/);
   for (const file of ['hero-island-v2.webp', 'mutated-whale-v2.webp', 'guide-fishing-v2.webp']) {
     const info = await stat(new URL(`../public/assets/how-to-fish/${file}`, import.meta.url));
     assert.ok(info.size > 20_000, `${file} must be a real project asset`);
   }
+  const lighthouse = getPageByRoute('/islands/lighthouse/');
+  assert.match(lighthouse.image ?? '', /^\/assets\/how-to-fish\/steam-[^/]+\.jpg$/);
+  assert.ok(lighthouse.sources.includes('steamMedia'));
+  assert.match(sourceRegistry, /steamMedia[\s\S]*sourceLevel:\s*'official'/);
   assert.match(site, /hero-island-v2\.webp/);
 });
 
@@ -72,14 +83,18 @@ test('the home page follows the authoritative dashboard section order', async ()
   assert.doesNotMatch(home, /title="Browse the How to Fish Wiki"|title="How to Fish Boss Guides"/);
 });
 
-test('Walkthrough uses five chapter cards with a coral final chapter', async () => {
-  const [component, route] = await Promise.all([
-    projectFile('components/guide/WalkthroughPage.tsx'),
-    projectFile('app/walkthrough/page.tsx'),
-  ]);
-  for (const area of ['Lighthouse', 'Forest', 'Desert', 'Rocks', 'Volcano']) assert.match(component, new RegExp(area));
-  assert.match(component, /chapter-card-final/);
-  assert.match(component, /Common Progression Blockers/);
+test('Walkthrough renders its five chapter cards and every authored detail section', async () => {
+  const route = await projectFile('app/walkthrough/page.tsx');
+  const page = getPageByRoute('/walkthrough/');
+  const markup = renderToStaticMarkup(React.createElement(WalkthroughPageView, { page }));
+
+  assert.equal((markup.match(/class="chapter-card(?: |")/g) ?? []).length, 5);
+  assert.match(markup, /chapter-card-final/);
+  for (const section of page.sections) {
+    assert.match(markup, new RegExp(`id="${section.id}"`), `${section.id} must be rendered`);
+  }
+  assert.match(markup, /Back up the save before experimenting with community workarounds/);
+  assert.equal((markup.match(/id="blockers"/g) ?? []).length, 1, 'the blocker section must not be duplicated');
   assert.match(route, /WalkthroughPageView/);
   assert.doesNotMatch(route, /GuidePageView/);
 });
@@ -138,4 +153,5 @@ test('responsive CSS follows the 1280, tablet and mobile rules', async () => {
   assert.match(css, /\.v2-card[\s\S]*box-shadow:\s*none/);
   assert.match(css, /\.boss-hero-image[\s\S]*aspect-ratio:\s*16\s*\/\s*9/);
   assert.match(css, /\.table-scroll[\s\S]*overflow-x:\s*auto/);
+  assert.match(css, /@media\s*\(max-width:\s*767px\)[\s\S]*\.guide-media-gallery\s*\{[\s\S]*grid-template-columns:\s*1fr/);
 });

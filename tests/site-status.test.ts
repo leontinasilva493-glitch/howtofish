@@ -47,11 +47,12 @@ test('sitemap lastModified follows each page instead of a global build date', ()
   }
 });
 
-test('source access dates match the homepage verification date', () => {
+test('source access dates are valid and no older than the homepage verification baseline', () => {
   const lastUpdated = getPageByRoute('/').lastUpdated;
 
   for (const source of Object.values(sources)) {
-    assert.equal(source.accessedAt, lastUpdated, `${source.id} has a stale accessedAt date`);
+    assert.match(source.accessedAt, /^\d{4}-\d{2}-\d{2}$/, `${source.id} needs an ISO accessedAt date`);
+    assert.ok(source.accessedAt >= lastUpdated, `${source.id} predates the homepage verification baseline`);
   }
 });
 

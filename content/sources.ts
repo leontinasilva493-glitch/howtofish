@@ -34,6 +34,16 @@ export const sources: Record<string, SourceReference> = {
     accessedAt,
     notes: 'Difficulty settings, Steam Relay diagnostic, and cautiously worded attempted save-corruption fix.',
   },
+  patch110: {
+    id: 'patch-1-0-10',
+    label: 'Fanart & Patch 1.0.10',
+    publisher: 'Dazed Games / Steam Community',
+    url: 'https://steamcommunity.com/games/4001890/announcements/detail/698774255287927073',
+    sourceLevel: 'official',
+    sourceType: 'steam-patch',
+    accessedAt: '2026-08-29',
+    notes: 'Current official baseline: dropped-item persistence, cleaned cooked tools, Radar X removal, the Tuna/Albatross respawn fix, and cautious item-loading fixes.',
+  },
   patch104: {
     id: 'patch-1-0-4',
     label: 'Patch 1.0.4',

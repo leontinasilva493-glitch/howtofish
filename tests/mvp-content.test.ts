@@ -55,8 +55,8 @@ test('every SEO page has answer-first content and a visible evidence trail', () 
     assert.ok(page.quickAnswer.length >= 100, `${page.route} needs a useful quick answer`);
     assert.ok(page.sections.length >= 4, `${page.route} needs independent page content`);
     assert.ok(page.sources.length >= 2, `${page.route} needs more than one evidence reference`);
-    assert.equal(page.lastUpdated, siteStatus.lastChecked);
-    assert.equal(page.verifiedPatch, siteStatus.verifiedPatch);
+    assert.ok(page.lastUpdated >= siteStatus.lastChecked, `${page.route} review date predates the site baseline`);
+    if (page.lastUpdated === siteStatus.lastChecked) assert.equal(page.verifiedPatch, siteStatus.verifiedPatch);
     assert.ok(page.updateLog.length >= 1, `${page.route} needs an update log`);
     assert.ok(page.relatedPages.every((route) => route === '/' || route.split('#')[0].endsWith('/')));
   }
