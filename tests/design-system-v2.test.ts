@@ -30,16 +30,17 @@ test('the shared v2 components and font weights are wired before page compositio
   }
 });
 
-test('active page imagery is AI-generated WebP and never references Steam screenshots', async () => {
-  const [pages, home, site] = await Promise.all([
+test('priority editorial pages use real official Steam screenshots while the home identity stays stable', async () => {
+  const [pages, innerPages, site] = await Promise.all([
     projectFile('content/pages.ts'),
-    projectFile('components/wiki/HomePage.tsx'),
+    projectFile('content/inner-pages.ts'),
     projectFile('config/site.ts'),
   ]);
-  for (const source of [pages, home, site]) assert.doesNotMatch(source, /\/assets\/how-to-fish\/steam-[^'"\s]+/);
-  for (const file of ['hero-island-v2.webp', 'mutated-whale-v2.webp', 'guide-fishing-v2.webp']) {
+  assert.match(pages, /\/assets\/how-to-fish\/steam-gear\.jpg/);
+  assert.match(innerPages, /\/assets\/how-to-fish\/steam-pufferfish\.jpg/);
+  for (const file of ['steam-gear.jpg', 'steam-pufferfish.jpg', 'steam-catch.jpg', 'steam-quest.jpg']) {
     const info = await stat(new URL(`../public/assets/how-to-fish/${file}`, import.meta.url));
-    assert.ok(info.size > 20_000, `${file} must be a real project asset`);
+    assert.ok(info.size > 200_000, `${file} must be a substantive official screenshot asset`);
   }
   assert.match(site, /hero-island-v2\.webp/);
 });
@@ -84,17 +85,15 @@ test('Walkthrough uses five chapter cards with a coral final chapter', async () 
   assert.doesNotMatch(route, /GuidePageView/);
 });
 
-test('the final boss page follows the five-fact cinematic reference', async () => {
+test('the final boss page renders data-driven guide, evidence, failures, and media', async () => {
   const [component, route] = await Promise.all([
     projectFile('components/guide/BossFeaturePage.tsx'),
     projectFile('app/bosses/mutated-bowhead-whale/page.tsx'),
   ]);
-  assert.match(component, /mutated-whale-v2\.webp/);
   assert.match(component, /columns=\{5\}/);
-  assert.match(component, /How to Summon the Mutated Bowhead Whale/);
-  assert.match(component, /summon-step/);
-  assert.match(component, /Handyman Achievement/);
-  assert.match(component, /variant="version"/);
+  for (const name of ['GuideSections', 'EvidenceSplitTable', 'FailureBranchTable', 'GuideMediaBlock']) assert.match(component, new RegExp(name));
+  assert.match(component, /page\.image/);
+  assert.match(component, /\/achievements\/handyman\//);
   assert.match(route, /BossFeaturePage/);
   assert.doesNotMatch(route, /GuidePageView/);
 });

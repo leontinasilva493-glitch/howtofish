@@ -23,6 +23,35 @@ export type GuideSection = {
   callout?: { tone: 'tip' | 'warning' | 'status'; title: string; text: string };
 };
 
+export type EvidenceRow = {
+  topic: string;
+  official: string;
+  community: string;
+  guidance: string;
+};
+
+export type FailureBranch = {
+  symptom: string;
+  likelyState: string;
+  nextStep: string;
+};
+
+export type GuideMedia = {
+  gallery: Array<{
+    src: string;
+    alt: string;
+    caption: string;
+    sourceId: string;
+  }>;
+  video?: {
+    href: string;
+    embedUrl: string;
+    title: string;
+    description: string;
+    sourceId: string;
+  };
+};
+
 export type GuidePage = {
   route: string;
   priority: 'P0' | 'P1' | 'P2';
@@ -41,6 +70,9 @@ export type GuidePage = {
   image?: string;
   imageAlt?: string;
   keyFacts: Array<{ label: string; value: string }>;
+  evidenceRows?: EvidenceRow[];
+  failureBranches?: FailureBranch[];
+  media?: GuideMedia;
   sections: GuideSection[];
   faqs: Array<{ question: string; answer: string }>;
   relatedPages: string[];

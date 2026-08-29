@@ -9,6 +9,7 @@ import { achievements } from '../content/achievements';
 import { creatures } from '../content/creatures';
 import { seoPages } from '../content/pages';
 import { resolveSources } from '../content/sources';
+import { siteStatus } from '../content/site-status';
 import * as innerData from '../content/inner-pages';
 
 (globalThis as typeof globalThis & { React: typeof React }).React = React;
@@ -21,19 +22,19 @@ const p1Routes = [
   '/bosses/bowhead-whale/',
   '/fixes/leeches-not-spawning/',
   '/fixes/missing-radar/',
-  '/fixes/multiplayer-black-screen/',
+  '/fixes/black-screen/',
   '/fixes/save-autosave/',
   '/fixes/error-0x11c7/',
 ] as const;
 
-test('P1 publishes five boss and five symptom-led troubleshooting routes', () => {
+test('the canonical child registry publishes five boss and five symptom-led troubleshooting routes', () => {
   const byRoute = new Map(seoPages.map((page) => [page.route, page]));
 
   for (const route of p1Routes) {
     const page = byRoute.get(route);
     assert.ok(page, `${route} must be a canonical SEO page`);
     assert.equal(page.indexable, true);
-    assert.equal(page.lastUpdated, '2026-08-27');
+    assert.equal(page.lastUpdated, siteStatus.lastChecked);
     assert.ok(page.quickAnswer.length >= 100, `${route} needs an answer-first summary`);
     assert.ok(page.sections.length >= 4, `${route} needs four independent sections`);
     assert.ok(page.sources.length >= 2, `${route} needs two independent sources`);
@@ -41,7 +42,7 @@ test('P1 publishes five boss and five symptom-led troubleshooting routes', () =>
   }
 });
 
-test('P1 child pages have unique metadata and stay inside the evidence boundary', () => {
+test('boss and troubleshooting child pages have unique metadata and stay inside the evidence boundary', () => {
   const pages = seoPages.filter((page) => p1Routes.includes(page.route as typeof p1Routes[number]));
   assert.equal(pages.length, p1Routes.length);
   assert.equal(new Set(pages.map((page) => page.title)).size, pages.length);
@@ -57,14 +58,14 @@ test('P1 child pages have unique metadata and stay inside the evidence boundary'
   }
 });
 
-test('P1 route ownership separates progression, combat, and recovery intent', () => {
+test('child route ownership separates progression, combat, and recovery intent', () => {
   const byRoute = new Map(seoPages.map((page) => [page.route, page]));
   for (const route of p1Routes.slice(0, 5)) assert.equal(byRoute.get(route)?.pageType, 'boss-guide');
   for (const route of p1Routes.slice(5)) assert.equal(byRoute.get(route)?.pageType, 'troubleshooting-guide');
 
   assert.equal(byRoute.get('/bosses/pufferfish/')?.primaryKeyword, 'how to beat pufferfish how to fish');
   assert.equal(byRoute.get('/fixes/leeches-not-spawning/')?.primaryKeyword, 'how to fish leeches not spawning');
-  assert.equal(byRoute.get('/fixes/multiplayer-black-screen/')?.contentStatus, 'still-reported');
+  assert.equal(byRoute.get('/fixes/black-screen/')?.contentStatus, 'still-reported');
   assert.equal(byRoute.get('/fixes/save-autosave/')?.contentStatus, 'attempted-fix');
 });
 
@@ -109,6 +110,7 @@ test('P2 Fishipedia contains the 44-record G2A and AllThings.How intersection', 
 
 const achievementRoutes = [
   '/achievements/bean/',
+  '/achievements/im-the-bird-now/',
   '/achievements/fishipedia/',
   '/achievements/rich-millionaire/',
   '/achievements/360-no-scope/',
@@ -116,7 +118,7 @@ const achievementRoutes = [
   '/achievements/everyones-dream/',
 ] as const;
 
-test('P2 publishes six difficult-achievement pages with official requirements', () => {
+test('the achievement library publishes seven detailed pages with official requirements', () => {
   const byRoute = new Map(seoPages.map((page) => [page.route, page]));
   for (const route of achievementRoutes) {
     const page = byRoute.get(route);
@@ -129,14 +131,15 @@ test('P2 publishes six difficult-achievement pages with official requirements', 
   assert.deepEqual(innerData.getInnerStaticParams('achievements'), achievementRoutes.map((route) => ({ slug: route.split('/')[2] })));
 });
 
-test('P2 uses the August 27 Steam achievement snapshot and canonical child links', () => {
+test('achievement pages use the August 29 Steam snapshot and canonical child links', () => {
   const expected = [
-    ['360 no scope', [59.4, '/achievements/360-no-scope/']],
-    ['Rich! Millionaire', [11.8, '/achievements/rich-millionaire/']],
-    ["Everyone's dream", [4.6, '/achievements/everyones-dream/']],
-    ['Handyman', [2.0, '/achievements/handyman/']],
-    ['Fishipedia', [1.7, '/achievements/fishipedia/']],
-    ['Bean', [1.3, '/achievements/bean/']],
+    ['360 no scope', [60.7, '/achievements/360-no-scope/']],
+    ["I'm the bird now", [22.1, '/achievements/im-the-bird-now/']],
+    ['Rich! Millionaire', [13.4, '/achievements/rich-millionaire/']],
+    ["Everyone's dream", [5.1, '/achievements/everyones-dream/']],
+    ['Handyman', [2.4, '/achievements/handyman/']],
+    ['Fishipedia', [2.0, '/achievements/fishipedia/']],
+    ['Bean', [1.6, '/achievements/bean/']],
   ] as const;
   for (const [name, [rate, route]] of expected) {
     const item = achievements.find((achievement) => achievement.name === name);
@@ -156,7 +159,7 @@ test('homepage stuck-state cards link directly to current boss and recovery answ
     '/bosses/pufferfish/',
     '/fixes/leeches-not-spawning/',
     '/fixes/missing-radar/',
-    '/fixes/multiplayer-black-screen/',
+    '/fixes/black-screen/',
     '/fixes/save-autosave/',
     '/achievements/bean/',
   ]) assert.match(markup, new RegExp(`href="${route.replace(/\/$/, '')}"`), `homepage needs a direct route to ${route}`);

@@ -8,7 +8,7 @@ const shared: Pick<GuidePage, 'lastUpdated' | 'verifiedPatch' | 'updateLog' | 'i
   indexable: true,
 };
 
-const innerPage = (input: Omit<GuidePage, keyof typeof shared>): GuidePage => ({ ...input, ...shared });
+const innerPage = (input: Omit<GuidePage, keyof typeof shared> & Partial<typeof shared>): GuidePage => ({ ...shared, ...input });
 
 export const p1InnerPages: GuidePage[] = [
   innerPage({
@@ -40,18 +40,38 @@ export const p1InnerPages: GuidePage[] = [
     relatedPages: ['/islands/forest/', '/fixes/leeches-not-spawning/', '/bosses/pufferfish/', '/walkthrough/'], sources: ['steamAchievements', 'destructoidWalkthrough', 'allThingsFish', 'communityGuide'],
   }),
   innerPage({
-    route: '/bosses/pufferfish/', priority: 'P1', pageType: 'boss-guide', primaryKeyword: 'how to beat pufferfish how to fish', secondaryKeywords: ['how to fish pufferfish boss', 'how to fish carrot bait', 'how to fish endangered fish', 'how to fish desert boss'],
-    title: 'How to Beat Pufferfish in How to Fish', description: 'Exchange an eligible endangered catch for the Carrot, keep moving during the Pufferfish fight, and preserve the fin hand-in.', h1: 'How to Beat the Pufferfish', eyebrow: 'Desert · Progression Boss',
-    quickAnswer: 'Complete the tourist request with an eligible endangered catch, keep the Carrot reward, and use it to trigger Pufferfish. PC Gamer and Destructoid both favor continuous movement and ranged pressure: circle through open lanes, fire during safe gaps, heal before a mistake becomes fatal, and return the distinct fin after the fight.',
-    contentStatus: 'version-sensitive', spoilerLevel: 'minor', keyFacts: [{ label: 'Area', value: 'Desert' }, { label: 'Trigger', value: 'Carrot' }, { label: 'Patch status', value: 'Nerfed in 1.0.4' }, { label: 'Fight rule', value: 'Keep moving' }],
+    route: '/bosses/pufferfish/', priority: 'P0', pageType: 'boss-guide', primaryKeyword: 'how to beat pufferfish how to fish', secondaryKeywords: ['how to fish pufferfish boss', 'how to fish carrot bait', 'how to fish endangered fish', 'how to fish pufferfish poison'],
+    title: 'How to Beat Pufferfish in How to Fish', description: 'Choose the correct Carrot quest branch, read the purple poison cue, follow a safe solo movement loop, and complete the fin hand-in.', h1: 'How to Beat the Pufferfish', eyebrow: 'Desert · P0 Boss Route',
+    quickAnswer: 'Complete the tourist’s endangered-catch request, keep the Carrot reward, and use it to trigger Pufferfish. Circle through open lanes, fire only while moving, and leave purple poison immediately instead of timing another burst. For solo, prioritize ammunition and healing; after the kill, keep the distinct fin and finish the tourist hand-in.',
+    contentStatus: 'version-sensitive', spoilerLevel: 'minor', image: '/assets/how-to-fish/steam-pufferfish.jpg', imageAlt: 'Official How to Fish screenshot showing the Pufferfish encounter', keyFacts: [{ label: 'Area', value: 'Desert' }, { label: 'Trigger', value: 'Carrot' }, { label: 'Patch status', value: 'Nerfed in 1.0.4' }, { label: 'Poison cue', value: 'Exit purple ground immediately' }],
     sections: [
-      { id: 'carrot', title: 'Trade for the Carrot', paragraphs: ['The tourist quest asks for an endangered catch before awarding the Carrot. PC Gamer identifies Bowlfish in its run; Destructoid uses Needlefish. That disagreement is why this page says eligible endangered catch rather than declaring one exclusive answer. Follow the live quest response.'] },
-      { id: 'loadout', title: 'Bring sustained ranged pressure', paragraphs: ['PC Gamer reports that an upgraded SMG succeeded where its shotgun attempts did not. Treat that as a tested route, not a universal equipment rule. The important preparation is enough ammunition, healing food, and room to move around terrain.'] },
-      { id: 'movement', title: 'Move first, fire second', steps: ['Choose a wide route around the available trees and shop area.', 'Keep the boss moving instead of stopping for a long burst.', 'Fire only when your lane is clear and resume movement early.', 'Heal during separation rather than waiting for critical health.'] },
-      { id: 'patch', title: 'Difficulty and patch context', paragraphs: ['Patch 1.0.4 officially nerfed Pufferfish, and Patch 1.0.9 added Easy and Hard modifiers. Exact health and damage depend on the selected mode, so old fixed-number guides are not a safe authority. Return the fin or other quest-marked item before leaving the Desert route.'] },
+      { id: 'carrot', title: 'Which catch unlocks the Carrot?', paragraphs: ['The tourist asks for an endangered catch before awarding the Carrot. PC Gamer records Bowlfish; Destructoid records Needlefish. Because those first-hand routes disagree, inspect the catch with the live UI and use the quest response as the authority instead of treating either species as the only valid branch.'] },
+      { id: 'solo-loadout', title: 'What should a solo loadout prioritize?', paragraphs: ['PC Gamer succeeded with an upgraded SMG after unsuccessful shotgun attempts. That is one tested route, not a required loadout. Solo preparation should solve three observable needs: sustained ranged pressure, enough ammunition to avoid a forced stop, and healing that can be used without crossing the boss’s path.'] },
+      { id: 'poison-timing', title: 'How should you time the purple poison cloud?', paragraphs: ['Do not count a fixed number of seconds. When purple poison occupies the next part of your loop, stop extending the damage window and leave it immediately; PC Gamer describes the damage ticks as becoming lethal quickly. Re-enter only after you can see clean ground and a clear route.'] },
+      { id: 'movement', title: 'Which movement loop survives each phase?', steps: ['Start with a wide circle through open lanes around trees and the shop.', 'Keep the boss turning instead of backing into the edge of the island.', 'Fire in short moving bursts; never plant your feet for a full magazine.', 'When poison cuts the route, widen or reverse before taking another shot.', 'Heal during separation, then rebuild the loop before resuming pressure.'] },
+      { id: 'hand-in', title: 'What must you do after the kill?', paragraphs: ['Pick up the distinct fin or quest-marked result and return it to the tourist before leaving the Desert route. A boss kill without the hand-in is not the full progression step. If the dialogue does not advance, confirm you carried the trophy rather than ordinary meat.'] },
     ],
+    evidenceRows: [
+      { topic: 'Difficulty', official: 'Patch 1.0.4 nerfed Pufferfish; Patch 1.0.9 added Easy and Hard creature modifiers.', community: 'Current guides still describe the encounter as a major movement check.', guidance: 'Use the selected mode as context; do not copy fixed HP or damage tables.' },
+      { topic: 'Carrot branch', official: 'No official patch note publishes one eligible species.', community: 'PC Gamer records Bowlfish while Destructoid records Needlefish.', guidance: 'Follow the live endangered label and tourist response.' },
+      { topic: 'Weapon and poison', official: 'The developer does not publish a required weapon or poison timer.', community: 'An upgraded SMG, constant movement, trees, and immediate poison exits are repeated first-hand observations.', guidance: 'Treat them as a safe route, not a guarantee.' },
+    ],
+    failureBranches: [
+      { symptom: 'The tourist will not give the Carrot', likelyState: 'Wrong quest stage or catch not accepted as endangered', nextStep: 'Re-read the objective, inspect the catch, and try the live quest response before farming another species.' },
+      { symptom: 'Pufferfish never appears', likelyState: 'Carrot not equipped or another encounter remains active', nextStep: 'Confirm the Carrot is still present, the quest is active, and no boss is already running.' },
+      { symptom: 'Poison kills the run', likelyState: 'Damage burst continued after the purple ground cue', nextStep: 'Leave immediately on the cue and rebuild the movement loop before firing again.' },
+      { symptom: 'The island does not advance after the kill', likelyState: 'Fin or quest trophy was not returned', nextStep: 'Recover the distinct result and finish the tourist hand-in before sailing away.' },
+    ],
+    media: {
+      video: { href: 'https://www.youtube.com/watch?v=M2isiOmxH7w', embedUrl: 'https://www.youtube-nocookie.com/embed/M2isiOmxH7w', title: 'Pufferfish fight video reference', description: 'Use the footage to study route shape and poison cues. The page does not convert one run into a fixed timer or required loadout.', sourceId: 'pufferfish-video' },
+      gallery: [
+        { src: '/assets/how-to-fish/steam-pufferfish.jpg', alt: 'Official screenshot of the Pufferfish encounter in How to Fish', caption: 'Official encounter context; not a health or timing reference.', sourceId: 'steam-media' },
+        { src: '/assets/how-to-fish/steam-gear.jpg', alt: 'Official How to Fish screenshot showing weapons and equipment', caption: 'Official equipment context for preparing a replaceable ranged setup.', sourceId: 'steam-media' },
+        { src: '/assets/how-to-fish/steam-catch.jpg', alt: 'Official How to Fish screenshot showing a caught creature near shore', caption: 'Official catch context; use the live item label for the endangered branch.', sourceId: 'steam-media' },
+      ],
+    },
     faqs: [{ question: 'Which endangered fish gives the Carrot?', answer: 'Published runs show more than one eligible endangered catch. Use the current tourist dialogue and the endangered label instead of relying on one claimed exclusive species.' }, { question: 'Did Patch 1.0.4 make Pufferfish easy?', answer: 'It officially nerfed the boss, but the encounter can still be a movement and equipment check. Patch 1.0.9 difficulty also changes creature health and damage.' }],
-    relatedPages: ['/islands/desert/', '/bosses/giant-piranha/', '/bosses/albatross/', '/tips/'], sources: ['patch104', 'patch109', 'pcGamerPufferfish', 'destructoidWalkthrough'],
+    relatedPages: ['/islands/desert/', '/bosses/giant-piranha/', '/bosses/albatross/', '/tips/'], sources: ['patch104', 'patch109', 'pcGamerPufferfish', 'destructoidWalkthrough', 'pufferfishVideo', 'steamMedia'],
   }),
   innerPage({
     route: '/bosses/albatross/', priority: 'P1', pageType: 'boss-guide', primaryKeyword: 'how to beat albatross how to fish', secondaryKeywords: ['how to fish albatross boss', 'how to fish terrorizing bird', 'how to fish tuna bait', 'how to fish rocks boss'],
@@ -87,10 +107,21 @@ export const p1InnerPages: GuidePage[] = [
     quickAnswer: 'Finish the Forest NPC dialogue until the objective visibly asks for three Leeches, then sweep the ground while watching the pickup prompt rather than searching only for a large model. If the counter remains stuck, save and preserve the current state, reload once, and report the patch, host/client role, and exact counter instead of repeatedly overwriting progress.',
     contentStatus: 'still-reported', spoilerLevel: 'minor', keyFacts: [{ label: 'Expected objective', value: '3 Leeches' }, { label: 'Item type', value: 'Ground pickup' }, { label: 'Status', value: 'Still reported' }, { label: 'Recovery', value: 'Community-only' }],
     sections: [
-      { id: 'objective', title: 'Confirm the objective is active', paragraphs: ['Three independent route sources agree on three Leeches, but Steam reports show players searching before dialogue has fully advanced. Talk through the NPC interaction and confirm the visible 0/3-style counter before treating the absence as a spawn failure.'] },
-      { id: 'search', title: 'Search for a ground pickup', bullets: ['Walk the Forest floor and lake-side area slowly.', 'Watch for the interaction prompt through grass and terrain.', 'Do not switch to a fishing rod expecting a normal catch.', 'Recheck the counter after every pickup.'] },
-      { id: 'reload', title: 'Use one controlled reload', paragraphs: ['A Steam thread contains conflicting reports: dialogue helped some players, while others only recovered the pickups after reloading. Preserve the current save, reload once, and recheck the same area. This is a community workaround, not an official fix.'] },
-      { id: 'report', title: 'Report a reproducible stuck state', paragraphs: ['Record patch number, solo or multiplayer, host or client, visible objective count, whether the Leeches appeared earlier, and what happened before they disappeared. That evidence is more useful than repeatedly restarting or deleting files.'] },
+      { id: 'objective', title: 'Is the three-Leech objective actually active?', paragraphs: ['Three independent route sources agree on three Leeches, but Steam reports show players searching before dialogue has fully advanced. Talk through the NPC interaction and confirm the visible 0/3-style counter before treating the absence as a spawn failure.'] },
+      { id: 'search', title: 'Are you searching for a ground pickup?', bullets: ['Walk the Forest floor and lake-side area slowly.', 'Watch for the interaction prompt through grass and terrain.', 'Do not switch to a fishing rod expecting a normal catch.', 'Recheck the counter after every pickup.'] },
+      { id: 'reload', title: 'When should you try one controlled reload?', paragraphs: ['A Steam thread contains conflicting reports: dialogue helped some players, while others only recovered the pickups after reloading. Preserve the current save, reload once, and recheck the same area. This is a community workaround, not an official fix.'] },
+      { id: 'host-client', title: 'Does host or client state change the diagnosis?', paragraphs: ['If the objective works for the host but not a joining player, stop treating it as a universal spawn absence. Record who owns the save, who sees the counter, and whether each player can see or collect the same pickup before recreating the lobby.'] },
+      { id: 'report', title: 'What makes a reproducible stuck-state report?', paragraphs: ['Record patch number, solo or multiplayer, host or client, visible objective count, whether the Leeches appeared earlier, and what happened before they disappeared. That evidence is more useful than repeatedly restarting or deleting files.'] },
+    ],
+    evidenceRows: [
+      { topic: 'Quest target', official: 'Steam lists Dinnertime, but does not publish a Leech spawn map.', community: 'Independent routes agree that the Forest request uses three ground Leeches.', guidance: 'Use the live objective counter as the deciding evidence.' },
+      { topic: 'Recovery', official: 'No patch note guarantees a Leech recovery command.', community: 'Full dialogue helped some players; one controlled reload helped others.', guidance: 'Try reversible checks once, then report the exact state.' },
+    ],
+    failureBranches: [
+      { symptom: 'No Leech counter appears', likelyState: 'NPC dialogue or earlier objective is incomplete', nextStep: 'Finish the full conversation and wait for the visible objective before searching.' },
+      { symptom: 'Counter is active but no prompt appears', likelyState: 'Pickup is obscured or the spawn state is stuck', nextStep: 'Sweep slowly for prompts, preserve the save, then try one reload.' },
+      { symptom: 'Host can collect them but a client cannot', likelyState: 'Session replication or quest ownership issue', nextStep: 'Record host/client behavior and recreate a small private lobby before adding players.' },
+      { symptom: 'Counter stays below three after pickup', likelyState: 'Quest state did not register', nextStep: 'Stop repeated overwrites and report the counter, patch, role, and last successful pickup.' },
     ],
     faqs: [{ question: 'How many Leeches are required?', answer: 'Current cross-checked routes agree on three. Use the live counter as the authority after future patches.' }, { question: 'Should I start a new save?', answer: 'Not as a first step. Preserve the existing save, try one controlled reload, and report the state before abandoning progress.' }],
     relatedPages: ['/islands/forest/', '/bosses/giant-piranha/', '/fixes/save-autosave/', '/walkthrough/'], sources: ['steamAchievements', 'leechDiscussion', 'destructoidWalkthrough', 'allThingsFish'],
@@ -110,18 +141,30 @@ export const p1InnerPages: GuidePage[] = [
     relatedPages: ['/islands/', '/islands/forest/', '/fixes/save-autosave/', '/walkthrough/'], sources: ['radarDiscussion', 'destructoidWalkthrough', 'patch109'],
   }),
   innerPage({
-    route: '/fixes/multiplayer-black-screen/', priority: 'P1', pageType: 'troubleshooting-guide', primaryKeyword: 'how to fish multiplayer black screen', secondaryKeywords: ['how to fish cant join friends', 'how to fish steam relay red', 'how to fish lobby black screen', 'how to fish multiplayer not working'],
-    title: 'How to Fish Multiplayer Black Screen Fixes', description: 'Align game versions, recreate the lobby, check the Steam Relay diagnostic, and separate host, client, and save symptoms safely.', h1: 'Multiplayer Black Screen: Safe Fix Order', eyebrow: 'Co-op · Still Reported',
-    quickAnswer: 'Update every player to the same current patch, restart Steam and the game, and create a fresh private lobby with a simple server name. Test one host and one joiner before adding the rest. If the Steam Relay indicator turns red, Patch 1.0.9 directs players to the official Community Discord common-bugs guidance.',
-    contentStatus: 'still-reported', spoilerLevel: 'none', keyFacts: [{ label: 'Official status', value: 'Attempted fix in 1.0.4' }, { label: 'Diagnostic', value: 'Steam Relay in 1.0.9' }, { label: 'Lobby support', value: 'Up to 8 after 1.0.4' }, { label: 'Status', value: 'Still reported' }],
+    route: '/fixes/black-screen/', priority: 'P1', pageType: 'troubleshooting-guide', primaryKeyword: 'how to fish game black screen', secondaryKeywords: ['how to fish multiplayer black screen', 'how to fish cant join friends', 'how to fish steam relay red', 'how to fish 8 player lobby black screen'],
+    title: 'How to Fish Game Black Screen: Lobby Fix Order', description: 'Separate solo startup from join-only black screens, test the intended 1–4 flow before larger rooms, and use the Steam Relay diagnostic.', h1: 'How to Fish Black Screen: Safe Lobby Checks', eyebrow: 'Co-op · Still Reported',
+    quickAnswer: 'First confirm the game reaches solo play, then update every player, restart Steam, and create a fresh private lobby with a simple name. Test one host and one joiner, expand to the intended 1–4 group, and only then test players five through eight. If Steam Relay is red, use the developer-linked common-bugs guidance.',
+    contentStatus: 'still-reported', spoilerLevel: 'none', image: '/assets/how-to-fish/steam-quest.jpg', imageAlt: 'Official How to Fish screenshot showing players together during a quest', keyFacts: [{ label: 'Official status', value: 'Attempted fix in 1.0.4' }, { label: 'Diagnostic', value: 'Steam Relay in 1.0.9' }, { label: 'Core test', value: '1–4 players first' }, { label: 'Extended test', value: 'Players 5–8 separately' }],
     sections: [
-      { id: 'align', title: 'Align every client first', steps: ['Install the same current game update on host and joiners.', 'Restart Steam and the game after session-type changes.', 'Use a simple server name without special characters.', 'Create a fresh private lobby and send a new invite.'] },
-      { id: 'isolate', title: 'Test one host and one joiner', paragraphs: ['A small test separates a general lobby failure from a specific client or larger-session issue. If the join works, add players back one at a time. If it fails, swap host and joiner once and compare whether solo startup still works.'] },
-      { id: 'relay', title: 'Read the Steam Relay indicator', paragraphs: ['Patch 1.0.9 added a short Steam connection diagnostic in the main menu. A red Steam Relay result is the official signal to use the #common-bugs guidance in the developer-linked Discord. Do not claim a network accelerator or DNS change can fix every lobby.'] },
-      { id: 'status', title: 'Understand the patch wording', paragraphs: ['Patch 1.0.4 said the join black screen was hopefully fixed, not permanently eliminated. The same patch added support for up to eight-player lobbies, while the store still describes the original 1–4-player positioning. Preserve both facts instead of calling the base game natively eight-player.'] },
+      { id: 'scope', title: 'Is this a startup black screen or a join-only black screen?', paragraphs: ['If solo play reaches the world but joining a friend turns black, keep the diagnosis on multiplayer and Steam connection state. If solo also fails, use the fixes hub for display, file, or launch checks instead of repeatedly recreating lobbies.'] },
+      { id: 'align', title: 'Are every host and client on the same build?', steps: ['Install the same current game update on host and joiners.', 'Restart Steam and the game after session-type changes.', 'Use a simple server name without special characters.', 'Create a fresh private lobby and send a new invite.'] },
+      { id: 'one-to-four', title: 'Does the intended 1–4 player room work?', paragraphs: ['Start with one host and one joiner, then add players up to four one at a time. This tests the store-described design before introducing the later eight-slot support. Swap the host once if the first joiner consistently fails while solo play works.'] },
+      { id: 'five-to-eight', title: 'Does the failure begin with players five through eight?', paragraphs: ['Patch 1.0.4 added support for up to eight-player lobbies, but Steam reports describe inconsistent joins above four. If the first four load and the fifth or later player black-screens, record that exact threshold and keep the smaller working room instead of presenting eight as equally reliable.'] },
+      { id: 'relay', title: 'What does the Steam Relay indicator show?', paragraphs: ['Patch 1.0.9 added a short Steam connection diagnostic in the main menu. A red Steam Relay result is the official signal to use the #common-bugs guidance in the developer-linked Discord. Do not claim a network accelerator or DNS change can fix every lobby.'] },
+    ],
+    evidenceRows: [
+      { topic: 'Player count', official: 'The store describes 1–4 players; Patch 1.0.4 added lobby support up to eight.', community: 'Players report that fifth-or-later joins can fail even when a smaller room works.', guidance: 'Test 1–4 first, then add players five through eight one at a time.' },
+      { topic: 'Fix status', official: 'Patch 1.0.4 said the join black screen was hopefully fixed.', community: 'Join-only black screens continued to be reported after release.', guidance: 'Use “attempted fix,” isolate the failing role, and avoid a guarantee.' },
+      { topic: 'Relay', official: 'Patch 1.0.9 added the red Steam Relay diagnostic and points to common-bugs guidance.', community: 'Overlay, invite, and lobby-ID failures can look similar.', guidance: 'Read the official indicator before testing community workarounds.' },
+    ],
+    failureBranches: [
+      { symptom: 'Solo is also black', likelyState: 'Not a join-only lobby failure', nextStep: 'Return to the fixes hub and test display, files, and startup separately.' },
+      { symptom: 'First joiner black-screens', likelyState: 'Host/client, build, overlay, or Relay problem', nextStep: 'Match builds, recreate a private room, inspect Relay, and swap host once.' },
+      { symptom: 'Players 1–4 work; player 5+ fails', likelyState: 'Extended-lobby join threshold', nextStep: 'Keep the smaller room, add players one at a time, and report the exact failing slot.' },
+      { symptom: 'Steam Relay text is red', likelyState: 'Steam connection initialization failed', nextStep: 'Follow the current developer-linked common-bugs guidance.' },
     ],
     faqs: [{ question: 'Does the current game support eight players?', answer: 'Patch 1.0.4 added support for lobbies of up to eight. The Steam store still positions the original experience as 1–4 players.' }, { question: 'What does red Steam Relay text mean?', answer: 'Patch 1.0.9 says connection initialization failed and directs players to the official Discord common-bugs guidance.' }],
-    relatedPages: ['/multiplayer/', '/fixes/save-autosave/', '/fixes/error-0x11c7/', '/community/'], sources: ['patch104', 'patch109', 'blackScreenDiscussion'],
+    relatedPages: ['/multiplayer/', '/fixes/save-autosave/', '/fixes/error-0x11c7/', '/fixes/'], sources: ['patch104', 'patch109', 'patch110', 'blackScreenDiscussion', 'eightPlayerDiscussion', 'lobbySetupDiscussion'],
   }),
   innerPage({
     route: '/fixes/save-autosave/', priority: 'P1', pageType: 'troubleshooting-guide', primaryKeyword: 'how to fish save autosave fix', secondaryKeywords: ['how to fish lost items', 'how to fish corrupted save', 'how to fish guns disappeared', 'how to fish save not working'],
@@ -135,7 +178,7 @@ export const p1InnerPages: GuidePage[] = [
       { id: 'report', title: 'Capture a useful report', steps: ['List the missing item types and whether they were in inventory.', 'Record solo, host, or client state.', 'Note whether death, disconnect, update, or reload happened first.', 'Report the current patch and whether the save still loads.', 'Use official support guidance before editing any files.'] },
     ],
     faqs: [{ question: 'Did Patch 1.0.9 fix every corrupted save?', answer: 'No. The developer used “hopefully fixed” and provided an escalation path for remaining cases.' }, { question: 'Can reinstalling restore missing equipment?', answer: 'There is no supported guarantee that reinstalling recreates lost save-state items. Preserve the save and follow official support first.' }],
-    relatedPages: ['/fixes/', '/fixes/missing-radar/', '/fixes/multiplayer-black-screen/', '/multiplayer/'], sources: ['patch109', 'saveDiscussion', 'inventorySaveDiscussion'],
+    relatedPages: ['/fixes/', '/fixes/missing-radar/', '/fixes/black-screen/', '/multiplayer/'], sources: ['patch109', 'patch110', 'saveDiscussion', 'inventorySaveDiscussion'],
   }),
   innerPage({
     route: '/fixes/error-0x11c7/', priority: 'P1', pageType: 'troubleshooting-guide', primaryKeyword: 'how to fish error 0x11c7', secondaryKeywords: ['how to fish application control policy blocked', 'how to fish smart app control', 'how to fish game wont launch', 'how to fish code integrity'],
@@ -149,35 +192,90 @@ export const p1InnerPages: GuidePage[] = [
       { id: 'escalate', title: 'Escalate the evidence', paragraphs: ['Report the Windows version, game patch, full error, Code Integrity event ID, and whether a clean reinstall changed the result. Contact the developer-linked community channel so a signing or reputation issue can be addressed without asking players to weaken protection.'], callout: { tone: 'warning', title: 'Security boundary', text: 'Do not edit registry policy keys, delete Code Integrity policies, or disable protection based only on a community post.' } },
     ],
     faqs: [{ question: 'Should I turn off Smart App Control?', answer: 'Not as a first step. Microsoft treats it as a security control, and re-enabling behavior depends on the Windows release and device state. Update, verify, reinstall, and report first.' }, { question: 'Does verifying Steam files always fix 0x11C7?', answer: 'No. One How to Fish report remained blocked after verification; a later reinstall helped one player. Neither result is a guaranteed fix.' }],
-    relatedPages: ['/fixes/', '/fixes/multiplayer-black-screen/', '/fixes/save-autosave/', '/multiplayer/'], sources: ['error011c7Discussion', 'microsoftSmartAppControl', 'steamStore'],
+    relatedPages: ['/fixes/', '/fixes/black-screen/', '/fixes/save-autosave/', '/multiplayer/'], sources: ['error011c7Discussion', 'microsoftSmartAppControl', 'steamStore'],
   }),
 ];
 
 export const p2AchievementPages: GuidePage[] = [
   innerPage({
-    route: '/achievements/bean/', priority: 'P1', pageType: 'achievement-guide', primaryKeyword: 'how to fish bean achievement', secondaryKeywords: ['how to fish finish under one hour', 'how to fish speedrun achievement', 'how to fish bean route', 'how to fish patch 1.0.5 bean'],
-    title: 'How to Get Bean in How to Fish', description: 'Plan a current-patch sub-one-hour attempt after Patch 1.0.5 removed the old island-skip route, without risking your main save.', h1: 'Bean Achievement: Current-Patch Plan', eyebrow: 'Challenge · Finish Within One Hour',
-    quickAnswer: 'Bean requires finishing the game within one hour. Patch 1.0.5 closed the old travel-to-any-island bug, so use a fresh practice save, follow the five-stage story route, buy only what removes the next blocker, and keep every boss hand-in. Community reports say current legitimate runs remain possible, but exact timing depends on patch and mode.',
-    contentStatus: 'version-sensitive', spoilerLevel: 'full', keyFacts: [{ label: 'Official requirement', value: 'Finish within 1 hour' }, { label: 'Old shortcut', value: 'Closed in 1.0.5' }, { label: 'Recommended save', value: 'Separate practice save' }, { label: 'Status', value: 'Version-sensitive' }],
+    route: '/achievements/bean/', priority: 'P0', pageType: 'achievement-guide', primaryKeyword: 'how to fish bean achievement', secondaryKeywords: ['how to fish finish under one hour', 'how to fish speedrun achievement', 'how to fish bean legitimate route', 'how to fish patch 1.0.9 bean'],
+    title: 'How to Get Bean in How to Fish: Legal 1.0.9+ Route', description: 'Use a legitimate five-island sub-one-hour route after the old skip was patched, with island budgets, reset rules, and a protected practice save.', h1: 'Bean Achievement: Legitimate Current-Patch Route', eyebrow: 'P0 Achievement · Under One Hour',
+    quickAnswer: 'Bean still requires finishing the game within one hour. Use a separate solo save, follow every intended island unlock, spend only on the next combat blocker, and carry each boss trophy straight to its hand-in. The documented post-1.0.5 route finished in about 54 minutes, but practice splits and reset rules before treating that pace as repeatable.',
+    contentStatus: 'version-sensitive', spoilerLevel: 'full', image: '/assets/how-to-fish/steam-quest.jpg', imageAlt: 'Official How to Fish screenshot showing a quest interaction during the story route', keyFacts: [{ label: 'Official requirement', value: 'Finish within 1 hour' }, { label: 'Old shortcut', value: 'Closed in 1.0.5' }, { label: 'Route', value: 'All intended islands' }, { label: 'Baseline', value: '1.0.9+ legitimate route' }],
     sections: [
-      { id: 'official', title: 'Follow the literal requirement', paragraphs: ['Steam requires a completed game within one hour. It does not define an approved skip, loadout, party size, or difficulty. Build the attempt around a clean finish and the current objective chain.'] },
-      { id: 'patch', title: 'Discard the old island-skip route', paragraphs: ['Patch 1.0.5 explicitly fixed travel to islands before they were unlocked. Videos and guides made on the previous build can still rank while pointing at a route that no longer works.'] },
-      { id: 'practice', title: 'Practice the five hand-ins', steps: ['Rehearse Lighthouse and boat access.', 'Rehearse the three-Leech and Giant Piranha hand-in.', 'Rehearse the Carrot and Pufferfish route.', 'Rehearse Tuna into Albatross.', 'Rehearse the Fish Bucket, Whale, final boss, and final hand-in.'] },
-      { id: 'attempt', title: 'Protect the main save', paragraphs: ['Use a separate save for timed practice, keep purchases limited to immediate progression, and stop the attempt when a required item is lost. Community reports discuss successful current-patch runs, but this page does not promise a fixed minute-by-minute split.'] },
+      { id: 'legal', title: 'What makes this a legitimate current-patch route?', paragraphs: ['Patch 1.0.5 closed travel to islands before they were unlocked. This route follows Lighthouse, Forest, Desert, Rocks, and Volcano in order; it does not edit saves, inject items, or use the removed island skip. Steam defines only the one-hour finish, so every optimization below remains player-reported.'] },
+      { id: 'practice', title: 'What should you practice before starting the timer?', steps: ['Use a separate practice save and rehearse each NPC hand-in.', 'Learn the Spider Crab route with only the minimum early purchase.', 'Practice the three-Leech sweep and Giant Piranha trophy return.', 'Practice the Carrot branch, Pufferfish movement loop, and fin hand-in.', 'Practice Tuna into Albatross, then both Volcano whale encounters and the final hand-in.'] },
+      { id: 'island-budget', title: 'What is the post-1.0.5 island budget?', paragraphs: ['The loomy Steam guide uses Knife plus Crabbing Rod and Beer on Lighthouse, a Pistol on Forest, then an SMG with ammunition and magazine upgrades from Desert onward. It saves the Island 4 boss meat for Volcano healing and reports about 30–32 minutes on reaching Rocks as a workable practice split. Treat prices and exact upgrades as route evidence, not requirements.'] },
+      { id: 'combat', title: 'Where does the legal route usually lose time?', paragraphs: ['Pufferfish punishes a stopped firing stance, Albatross punishes exposed movement, and the two Whale fights punish weak healing preparation. The route’s core decision is to buy only what removes the next blocker, then carry the trophy directly to the quest giver instead of farming optional systems.'] },
+      { id: 'reset', title: 'When should you reset the attempt?', paragraphs: ['Reset if a required trophy is lost, an island hand-in fails, or repeated boss deaths consume the remaining margin. The published route allows some failures, but a 54-minute reported finish is not a guaranteed split. Record your own island arrival times and reset threshold over practice runs.'] },
+    ],
+    evidenceRows: [
+      { topic: 'Requirement', official: 'Steam says “Finish the game within 1 hour.”', community: 'A post-1.0.5 solo guide reports a legitimate roughly 54-minute finish.', guidance: 'Use the official timer target and treat the route as a practice baseline.' },
+      { topic: 'Old skip', official: 'Patch 1.0.5 fixed travel to locked islands.', community: 'Older videos and guides still show the removed shortcut.', guidance: 'Reject any route that depends on early locked-island access.' },
+      { topic: 'Difficulty', official: 'The achievement text does not name a difficulty; Patch 1.0.9 added Easy and Hard.', community: 'Players report Bean unlocking on Easy.', guidance: 'Recheck the live unlock; do not call a community report guaranteed.' },
+    ],
+    failureBranches: [
+      { symptom: 'An old route sails directly to Volcano', likelyState: 'Pre-1.0.5 island-skip guide', nextStep: 'Discard it and rehearse all intended island gates.' },
+      { symptom: 'Pace is already far behind at Rocks', likelyState: 'Early farming, deaths, or overbuying consumed the margin', nextStep: 'Review the previous island split and reset under your preselected rule.' },
+      { symptom: 'A boss dies but the route does not advance', likelyState: 'Distinct trophy was not carried to the hand-in', nextStep: 'Recover the quest item; reset if it is lost.' },
+      { symptom: 'Finish occurs but Bean does not unlock', likelyState: 'Timer, Steam sync, or version-sensitive behavior', nextStep: 'Record the final time and patch, wait for Steam sync, and report without editing the save.' },
     ],
     faqs: [{ question: 'Does the old direct-to-Volcano route work?', answer: 'Patch 1.0.5 says travel to locked islands was fixed, so the old skip is not a reliable current route.' }, { question: 'Does Easy mode invalidate Bean?', answer: 'The official requirement does not mention difficulty. Players report current runs on Easy, but confirm the live achievement behavior before relying on that report.' }],
-    relatedPages: ['/walkthrough/', '/achievements/', '/bosses/pufferfish/', '/bosses/bowhead-whale/'], sources: ['steamAchievements', 'patch105', 'beanDiscussion', 'communityGuide'],
+    relatedPages: ['/walkthrough/', '/achievements/', '/bosses/pufferfish/', '/bosses/bowhead-whale/'], sources: ['steamAchievements', 'patch105', 'patch109', 'patch110', 'beanDiscussion', 'beanSoloGuide'],
   }),
   innerPage({
-    route: '/achievements/fishipedia/', priority: 'P1', pageType: 'achievement-guide', primaryKeyword: 'how to fish fishipedia achievement', secondaryKeywords: ['how to fish all drip creatures', 'how to fish drip variants', 'how to fish fishipedia checklist', 'how to fish rare fish'],
-    title: 'How to Get Fishipedia in How to Fish', description: 'Track Drip variants with the in-game encyclopedia and local checklist, understand the Patch 1.0.5 fix, and clean up missing entries.', h1: 'Fishipedia: Find All Drip Creatures', eyebrow: 'Collection · Drip Variants',
-    quickAnswer: 'Fishipedia requires finding and killing all Drip creatures. Use the in-game encyclopedia as the authority, compare its gaps with the local Fishipedia tracker, and work through lure tiers methodically. Patch 1.0.5 fixed the achievement requiring one extra Drip after completing the set, so old “all plus one” instructions are outdated.',
-    contentStatus: 'version-sensitive', spoilerLevel: 'minor', keyFacts: [{ label: 'Official requirement', value: 'All Drip creatures' }, { label: 'Tracker', value: 'In-game encyclopedia' }, { label: 'Patch fix', value: 'All + 1 fixed in 1.0.5' }, { label: 'Spawn rates', value: 'Not claimed' }],
+    route: '/achievements/im-the-bird-now/', priority: 'P0', pageType: 'achievement-guide', primaryKeyword: 'how to fish make boat fly achievement', secondaryKeywords: ['how to fish im the bird now', "how to fish i'm the bird now", 'how to fish flying boat', 'how to fish dynamite boat'],
+    title: "How to Get I'm the Bird Now in How to Fish", description: 'Make the boat fly with a controlled dynamite launch, protect loose equipment, and recover safely if the boat lands in a bad position.', h1: "I'm the Bird Now: Make the Boat Fly", eyebrow: 'P0 Achievement · Physics Stunt',
+    quickAnswer: 'Unlock the boat, reach the Forest where dynamite becomes available, and move the boat into open water. Put valuable loose items in inventory, place a small explosive setup directly under the hull, retreat, and detonate. Steam only requires the boat to fly; dynamite placement is a community method, so increase cautiously if one blast only flips it.',
+    contentStatus: 'version-sensitive', spoilerLevel: 'minor', image: '/assets/how-to-fish/steam-seagull.jpg', imageAlt: 'Official How to Fish screenshot showing a boat and airborne seagull over open water', keyFacts: [{ label: 'Official requirement', value: 'Make the boat fly' }, { label: 'Common method', value: 'Dynamite under hull' }, { label: 'Engine tier', value: 'Not required by Steam text' }, { label: 'Main risk', value: 'Scattered loose items' }],
     sections: [
-      { id: 'official', title: 'Use the in-game encyclopedia first', paragraphs: ['Steam defines the goal as finding and killing all Drip creatures. The live encyclopedia knows your actual account state; this site stores a private planning checklist and does not connect to Steam.'] },
-      { id: 'patch', title: 'Ignore the obsolete extra-Drip workaround', paragraphs: ['Patch 1.0.5 says Fishipedia previously failed until the player found all Drip creatures plus one. The patch corrected that condition, so another catch after completion should not be treated as the current requirement.'] },
-      { id: 'route', title: 'Clean up by lure tier', steps: ['Check the missing encyclopedia entries.', 'Filter the Fish database by the first documented progression stage.', 'Equip the cross-checked lure and rod for that catch.', 'Confirm the kill updates the in-game entry before moving on.', 'Record conflicts rather than assuming an exclusive island.'] },
-      { id: 'boundary', title: 'Do not invent a spawn rate', paragraphs: ['Drip frequency, variant eligibility, and area behavior remain version-sensitive. The database shows cross-checked catch relationships but does not promise a percentage or a fixed location for a rare variant.'] },
+      { id: 'requirements', title: 'What do you need before the boat can fly?', paragraphs: ['Finish the Lighthouse hand-in that opens boat travel, reach the Forest shop route, and obtain dynamite. Steam does not require a named engine tier. Use open water so the hull can move without immediately catching terrain.'] },
+      { id: 'protect', title: 'How do you protect the boat and your items?', paragraphs: ['Move weapons, tools, quest objects, and valuable catches into inventory or far from the blast. Patch 1.0.10 limits explosion velocity and saves some dropped items, but that does not make scattering important gear a safe achievement method.'] },
+      { id: 'launch', title: 'How do you perform the dynamite launch?', steps: ['Float the boat in open water.', 'Place one small dynamite setup directly under the hull.', 'Move outside the blast radius.', 'Detonate and watch whether the whole hull clearly leaves the water.', 'Check the Steam achievement before changing the setup.'] },
+      { id: 'retry', title: 'What should you change after a failed launch?', paragraphs: ['If the boat only rolls or slides, move the explosive closer under the center of the hull before adding more. Community guides disagree on whether one bundle is always enough, so placement is the first variable; do not jump directly to a large pile.'] },
+      { id: 'recover', title: 'What should you do after the boat lands badly?', paragraphs: ['First confirm that the Steam unlock registered. Retrieve the boat normally if it remains accessible. A reload is a community-reported recovery, not an official guarantee; Patch 1.0.10 improves dropped-item persistence but you should still verify inventory and quest items before saving again.'] },
+    ],
+    evidenceRows: [
+      { topic: 'Unlock condition', official: 'Steam says only “Make the boat fly.”', community: 'Multiple guides use dynamite under or against a floating hull.', guidance: 'Require visible boat flight; do not invent an engine requirement.' },
+      { topic: 'Explosion behavior', official: 'Patch 1.0.10 limits maximum explosion velocity.', community: 'One bundle works in some reports; others need tighter placement or more force.', guidance: 'Adjust placement first and increase cautiously.' },
+      { topic: 'Recovery', official: 'Patch 1.0.10 adds limited dropped-item persistence, prioritizing important objects.', community: 'Players often reload when the boat lands far away.', guidance: 'Confirm the achievement and inspect items before saving or reloading.' },
+    ],
+    failureBranches: [
+      { symptom: 'The boat only tips or slides', likelyState: 'Blast is beside the hull rather than underneath', nextStep: 'Reposition under the center before increasing the explosive amount.' },
+      { symptom: 'The boat flies but no unlock appears', likelyState: 'Flight threshold or Steam sync did not register', nextStep: 'Wait for sync, then retry with a clearer vertical launch.' },
+      { symptom: 'Valuable items scatter', likelyState: 'Loose gear was inside the blast area', nextStep: 'Stop saving, recover what is visible, and inspect the current Patch 1.0.10 item state.' },
+      { symptom: 'The boat lands somewhere unusable', likelyState: 'Physics launch displaced the hull', nextStep: 'Confirm the unlock, attempt normal retrieval, then treat reload as community-only recovery.' },
+    ],
+    media: {
+      video: { href: 'https://www.youtube.com/watch?v=nnFQFXgFxZI', embedUrl: 'https://www.youtube-nocookie.com/embed/nnFQFXgFxZI', title: 'Boat-flight gameplay reference', description: 'Use this clip to understand the launch result, not as proof that one explosive placement is guaranteed.', sourceId: 'boat-fly-video' },
+      gallery: [
+        { src: '/assets/how-to-fish/steam-seagull.jpg', alt: 'Official How to Fish screenshot of the boat and sky above open water', caption: 'Official open-water context for a clear launch area.', sourceId: 'steam-media' },
+        { src: '/assets/how-to-fish/steam-gear.jpg', alt: 'Official How to Fish screenshot showing portable gear', caption: 'Store valuable loose equipment before using explosives near the boat.', sourceId: 'steam-media' },
+      ],
+    },
+    faqs: [{ question: 'Do I need the best engine?', answer: 'Steam only says to make the boat fly. The dynamite route does not depend on a published engine requirement.' }, { question: 'Does one bundle always work?', answer: 'Community reports differ. Start with placement directly under the hull and increase cautiously only after a clean failed attempt.' }],
+    relatedPages: ['/achievements/', '/multiplayer/', '/islands/forest/', '/fixes/'], sources: ['steamAchievements', 'patch110', 'boatFlyGuide', 'boatFlyVideo', 'steamMedia'],
+  }),
+  innerPage({
+    route: '/achievements/fishipedia/', priority: 'P2', pageType: 'achievement-guide', primaryKeyword: 'how to fish game fishipedia achievement', secondaryKeywords: ['how to fish all drip creatures', 'how to fish drip variants', 'how to fish fishipedia checklist', 'how to fish rare fish'],
+    title: 'How to Fish Game Fishipedia Achievement Guide', description: 'Noindex evidence draft for the How to Fish Fishipedia achievement, the in-game Drip tracker, and the Patch 1.0.5 extra-entry fix.', h1: 'How to Fish Fishipedia Achievement', eyebrow: 'P2 Draft · Drip Evidence Gate',
+    quickAnswer: 'Fishipedia officially requires finding and killing all Drip creatures. Use the in-game encyclopedia as the account authority and the local checklist only for planning. Patch 1.0.5 removed the obsolete extra-Drip requirement. This draft remains noindex because current Drip frequency, complete variant coverage, and lure-by-lure reproduction have not been verified directly by this site.',
+    contentStatus: 'version-sensitive', spoilerLevel: 'minor', indexable: false, keyFacts: [{ label: 'Official requirement', value: 'All Drip creatures' }, { label: 'Tracker', value: 'In-game encyclopedia' }, { label: 'Patch fix', value: 'All + 1 fixed in 1.0.5' }, { label: 'Index status', value: 'Noindex draft' }],
+    sections: [
+      { id: 'official', title: 'What does Steam officially require?', paragraphs: ['Steam defines the goal as finding and killing all Drip creatures. The live encyclopedia knows your actual account state; this site stores a private planning checklist and does not connect to Steam.'] },
+      { id: 'patch', title: 'Which old Fishipedia instruction is outdated?', paragraphs: ['Patch 1.0.5 says Fishipedia previously failed until the player found all Drip creatures plus one. The patch corrected that condition, so another catch after completion should not be treated as the current requirement.'] },
+      { id: 'route', title: 'How should a cleanup route be organized?', steps: ['Check the missing encyclopedia entries.', 'Filter the Fish database by the first documented progression stage.', 'Equip the cross-checked lure and rod for that catch.', 'Confirm the kill updates the in-game entry before moving on.', 'Record conflicts rather than assuming an exclusive island.'] },
+      { id: 'boundary', title: 'Why is this page still a noindex draft?', paragraphs: ['Drip frequency, variant eligibility, and area behavior remain unconfirmed through direct site testing. The database shows a cross-source catch intersection, but it does not verify every Drip variant or promise a percentage, fixed location, or guaranteed cast count.'] },
+    ],
+    evidenceRows: [
+      { topic: 'Unlock requirement', official: 'Steam requires finding and killing all Drip creatures.', community: 'Guides use the in-game encyclopedia and lure-based cleanup routes.', guidance: 'Treat the live encyclopedia as the account authority.' },
+      { topic: 'Patch condition', official: 'Patch 1.0.5 removed the erroneous all-plus-one Drip requirement.', community: 'Older guides may still advise one extra Drip after completion.', guidance: 'Reject the obsolete workaround on the current patch.' },
+      { topic: 'Coverage', official: 'No official source checked publishes Drip odds or a full lure table.', community: 'Two media lists overlap on normal catches and bosses, not every Drip reproduction.', guidance: 'Keep the page noindex until variant-by-variant evidence exists.' },
+    ],
+    failureBranches: [
+      { symptom: 'The encyclopedia still shows a missing Drip', likelyState: 'Collection cleanup is incomplete', nextStep: 'Identify the exact gap and test the cross-checked lure without assuming one island is exclusive.' },
+      { symptom: 'Every visible Drip is marked but Steam does not unlock', likelyState: 'Sync delay, hidden gap, or version-sensitive state', nextStep: 'Recheck the live encyclopedia, wait for Steam sync, and record the patch before another catch.' },
+      { symptom: 'The local checklist disagrees with the game', likelyState: 'Browser-only planning state is stale', nextStep: 'Trust the in-game encyclopedia and reset only the local checklist entry.' },
     ],
     faqs: [{ question: 'Do I still need all Drip creatures plus one?', answer: 'No. Patch 1.0.5 says that extra requirement was a bug and was fixed.' }, { question: 'Does the local checklist unlock the achievement?', answer: 'No. It is a browser-only planning tool. Steam and the in-game encyclopedia remain authoritative.' }],
     relatedPages: ['/fish/', '/achievements/', '/tips/', '/fixes/save-autosave/'], sources: ['steamAchievements', 'patch105', 'communityGuide', 'allThingsFish', 'g2aFishList'],
@@ -240,9 +338,127 @@ export const p2AchievementPages: GuidePage[] = [
   }),
 ];
 
-export const innerPages: GuidePage[] = [...p1InnerPages, ...p2AchievementPages];
+export const p2DraftPages: GuidePage[] = [
+  innerPage({
+    route: '/fixes/audio-glitch/', priority: 'P2', pageType: 'troubleshooting-guide', primaryKeyword: 'how to fish game audio glitch', secondaryKeywords: ['how to fish audio repeating', 'how to fish crackling audio', 'how to fish sound bug'],
+    title: 'How to Fish Game Audio Glitch: Evidence Draft', description: 'Noindex diagnostic draft for repeating, crackling, or degraded How to Fish audio without claiming a guaranteed fix.', h1: 'How to Fish Audio Glitch Checks', eyebrow: 'P2 Draft · Audio Evidence Gate',
+    quickAnswer: 'Restart the game and Steam, verify files, then test whether the problem changes with the in-game FX volume, one output device, and overlays disabled. Record the patch, area, and trigger before reporting it. This page stays noindex because the available forum reports do not establish one cause or a verified universal fix.',
+    contentStatus: 'still-reported', spoilerLevel: 'none', indexable: false, keyFacts: [{ label: 'Status', value: 'Player-reported' }, { label: 'Official cause', value: 'Not confirmed' }, { label: 'Fix promise', value: 'None' }, { label: 'Index status', value: 'Noindex draft' }],
+    sections: [
+      { id: 'scope', title: 'What exact audio symptom is happening?', paragraphs: ['Separate repeating sounds, crackling, slowed audio, missing effects, and full audio loss. A single “audio glitch” label hides different failure paths, and the current reports do not prove they share a cause.'] },
+      { id: 'safe', title: 'Which reversible checks come first?', steps: ['Restart the game and Steam.', 'Verify installed files.', 'Select one known output device.', 'Disable nonessential overlays for one test.', 'Change the in-game FX slider and record what changes.'] },
+      { id: 'capture', title: 'What evidence should a report include?', paragraphs: ['Record game patch, Windows version, output device, solo or multiplayer, the island or action that triggered the symptom, and whether the sound persists after returning to the menu.'] },
+      { id: 'gate', title: 'What evidence would make this page indexable?', paragraphs: ['A developer acknowledgement, patch-note fix, or repeatable current-build reproduction that separates cause from symptom would clear the evidence gate. Until then, this is a noindex diagnostic draft.'] },
+    ],
+    evidenceRows: [
+      { topic: 'Symptom', official: 'The official store does not describe an audio failure state.', community: 'Steam players report repeating, slowed, or degraded audio.', guidance: 'Classify the exact symptom before testing.' },
+      { topic: 'Fix', official: 'No current patch note guarantees a universal audio fix.', community: 'Restart, file verification, and device isolation are common diagnostics.', guidance: 'Use reversible checks and report results without a promise.' },
+    ],
+    failureBranches: [
+      { symptom: 'Only one effect repeats', likelyState: 'Event-specific or session audio state', nextStep: 'Record the triggering action and test a fresh session.' },
+      { symptom: 'All audio crackles or slows', likelyState: 'Output-device, load, or session-wide issue', nextStep: 'Test one output device and overlays off after a restart.' },
+      { symptom: 'FX slider changes nothing', likelyState: 'Symptom may sit outside the expected mixer path', nextStep: 'Capture the result with patch and device details for a report.' },
+    ],
+    faqs: [{ question: 'Is there a guaranteed audio fix?', answer: 'No. Current evidence supports only reversible diagnostics and a reproducible report.' }, { question: 'Why is this page noindex?', answer: 'The issue is real enough to document, but the cause and current universal remedy are not verified.' }],
+    relatedPages: ['/fixes/', '/multiplayer/', '/tips/'], sources: ['steamStore', 'audioDiscussion', 'patch110'],
+  }),
+  innerPage({
+    route: '/tips/bing-bong/', priority: 'P2', pageType: 'mechanics-draft', primaryKeyword: 'how to fish game bing bong', secondaryKeywords: ['how to fish bing bong', 'how to fish coconut secret', 'how to fish desert secret creature'],
+    title: 'How to Fish Game Bing Bong: Noindex Evidence Draft', description: 'Evidence-threshold draft for the How to Fish Bing Bong secret catch and Coconut lead without unsupported odds or fixed stats.', h1: 'How to Fish Bing Bong Evidence Draft', eyebrow: 'P2 Draft · Secret Catch',
+    quickAnswer: 'Third-party guides place Bing Bong on the Desert route and connect it to a Coconut used with the Fishing Rod. This site has not directly verified the purchase prompt, price, exclusive catch pool, or fight values. Treat the live item name and successful catch as the authority; the page remains noindex until the route is reproduced independently.',
+    contentStatus: 'version-sensitive', spoilerLevel: 'minor', indexable: false, keyFacts: [{ label: 'Reported area', value: 'Desert' }, { label: 'Reported bait', value: 'Coconut' }, { label: 'Official entry', value: 'Not found' }, { label: 'Index status', value: 'Noindex draft' }],
+    sections: [
+      { id: 'claim', title: 'What is currently being claimed?', paragraphs: ['Pro Game Guides reports a Coconut route to Bing Bong on the Desert. The official Steam store and patch notes do not document the secret, so the relationship remains community evidence here.'] },
+      { id: 'verify', title: 'What should be checked in the live game?', steps: ['Confirm the item is named Coconut.', 'Record the purchase prompt and location.', 'Use it with the displayed compatible rod.', 'Capture the hooked creature name.', 'Record whether another catch can occur.'] },
+      { id: 'avoid', title: 'Which claims are not verified?', paragraphs: ['This draft does not publish a guaranteed catch chance, fixed price, exclusive island, exact health, damage, escape timer, or universal best weapon.'] },
+      { id: 'gate', title: 'What clears the evidence gate?', paragraphs: ['Two independent current-build reproductions or a developer source showing the item, catch, and result would support a publishable route.'] },
+    ],
+    evidenceRows: [
+      { topic: 'Secret route', official: 'No official route was found in the store or patch notes.', community: 'Multiple media guides connect Desert Coconut to Bing Bong.', guidance: 'Keep the relationship unconfirmed until reproduced.' },
+      { topic: 'Combat values', official: 'Patch 1.0.9 confirms difficulty modifiers generally.', community: 'Guides publish specific stats and loadouts.', guidance: 'Do not reuse fixed values without direct evidence.' },
+    ],
+    failureBranches: [
+      { symptom: 'No Coconut prompt appears', likelyState: 'Wrong interaction, patch, or guide location', nextStep: 'Record the live area and prompt state instead of claiming the item was removed.' },
+      { symptom: 'Coconut catches something else', likelyState: 'Exclusive pool claim is false or version-sensitive', nextStep: 'Capture the result and keep the page noindex.' },
+      { symptom: 'Bing Bong appears but differs from a guide', likelyState: 'Difficulty or patch variation', nextStep: 'Follow live cues and avoid copying fixed stats.' },
+    ],
+    faqs: [{ question: 'Is Bing Bong confirmed by Dazed Games?', answer: 'Not in the official sources checked for this draft.' }, { question: 'Does Coconut guarantee Bing Bong?', answer: 'Third-party guides claim that relationship, but this site has not directly verified a guaranteed pool.' }],
+    relatedPages: ['/tips/coconut-bait/', '/islands/desert/', '/bosses/pufferfish/', '/fish/'], sources: ['steamStore', 'patch109', 'bingBongGuide'],
+  }),
+  innerPage({
+    route: '/tips/coconut-bait/', priority: 'P2', pageType: 'mechanics-draft', primaryKeyword: 'how to fish game coconut bait', secondaryKeywords: ['how to fish coconut lure', 'how to fish desert coconut', 'how to catch bing bong'],
+    title: 'How to Fish Game Coconut Bait: Noindex Draft', description: 'Evidence draft for the reported Desert Coconut bait, its interaction prompt, and its connection to Bing Bong.', h1: 'How to Fish Coconut Bait Evidence Draft', eyebrow: 'P2 Draft · Bait Evidence Gate',
+    quickAnswer: 'Community guides report that a Coconut can be obtained from a Desert palm interaction and equipped on the Fishing Rod for the Bing Bong secret catch. The current official sources do not publish that item route. Confirm the live prompt, item name, rod compatibility, and catch before spending it; this page remains noindex pending independent reproduction.',
+    contentStatus: 'version-sensitive', spoilerLevel: 'minor', indexable: false, keyFacts: [{ label: 'Reported area', value: 'Desert' }, { label: 'Reported rod', value: 'Fishing Rod' }, { label: 'Official route', value: 'Not published' }, { label: 'Index status', value: 'Noindex draft' }],
+    sections: [
+      { id: 'find', title: 'Where do players report finding the Coconut?', paragraphs: ['The current media lead points to a palm interaction on the Desert rather than normal shop stock. This site has not captured the prompt directly.'] },
+      { id: 'check', title: 'What should you verify before buying or using it?', bullets: ['Exact item name.', 'Displayed price rather than a copied price.', 'Compatible rod shown in the UI.', 'Whether one use consumes the item.', 'The name of the creature actually caught.'] },
+      { id: 'risk', title: 'Which assumptions should you avoid?', paragraphs: ['Do not assume every palm works, that the item is permanent, that it is stocked on later islands, or that it guarantees one creature until the current build shows those states.'] },
+      { id: 'gate', title: 'When can this become a public guide?', paragraphs: ['The evidence gate requires a current capture of the prompt, inventory item, compatible rod, and completed catch plus an independent source or developer confirmation.'] },
+    ],
+    evidenceRows: [
+      { topic: 'Item route', official: 'The official store and patch notes checked do not publish Coconut bait.', community: 'A current media guide reports a Desert palm interaction.', guidance: 'Confirm the live prompt before treating the route as fact.' },
+      { topic: 'Catch relationship', official: 'No developer source checked links Coconut to Bing Bong.', community: 'Media guides report the Coconut and Fishing Rod combination.', guidance: 'Do not publish a guaranteed pool until independently reproduced.' },
+    ],
+    failureBranches: [
+      { symptom: 'The shop does not sell Coconut', likelyState: 'Reported route uses a world interaction', nextStep: 'Check the live palm prompt without assuming one tree is universal.' },
+      { symptom: 'The item cannot equip', likelyState: 'Wrong rod, item label, or patch behavior', nextStep: 'Record the compatibility text and stop before consuming it.' },
+      { symptom: 'The catch differs', likelyState: 'Pool or exclusivity claim is unverified', nextStep: 'Capture the result and keep the route in draft.' },
+    ],
+    faqs: [{ question: 'Is Coconut officially documented bait?', answer: 'Not in the official sources checked for this draft.' }, { question: 'Is the reported price permanent?', answer: 'No price is published here until the current prompt is verified.' }],
+    relatedPages: ['/tips/bing-bong/', '/islands/desert/', '/fish/', '/tips/'], sources: ['steamStore', 'bingBongGuide', 'patch109'],
+  }),
+  innerPage({
+    route: '/tips/cooking/', priority: 'P2', pageType: 'mechanics-draft', primaryKeyword: 'how to fish game cooking', secondaryKeywords: ['how to fish grill', 'how to cook fish how to fish game', 'how to fish burnt creature'],
+    title: 'How to Fish Game Cooking and Grill: Noindex Draft', description: 'Evidence draft for unlocking the grill, inspecting cooked items, avoiding burns, and Patch 1.0.10 tool cleaning.', h1: 'How to Fish Cooking Evidence Draft', eyebrow: 'P2 Draft · Cooking Evidence Gate',
+    quickAnswer: 'Steam achievements confirm starting the grill and eating a burnt creature, while community guides describe the Desert Blue Shark quest and live inspect multiplier. Patch 1.0.10 says cooked weapons and tools can be cleaned in water. Exact cooking windows and value formulas are not verified here, so use the live inspection panel and keep quest items off the heat.',
+    contentStatus: 'version-sensitive', spoilerLevel: 'minor', indexable: false, keyFacts: [{ label: 'Official evidence', value: 'Grill + burnt achievement' }, { label: 'Patch 1.0.10', value: 'Clean tools in water' }, { label: 'Exact timer', value: 'Not verified' }, { label: 'Index status', value: 'Noindex draft' }],
+    sections: [
+      { id: 'official', title: 'What does official evidence confirm?', paragraphs: ['Steam names Grillmaster and Yummy in my tummy, and Patch 1.0.10 documents cleaning cooked weapons and tools in water. Official sources checked here do not publish a grill timer or price formula.'] },
+      { id: 'unlock', title: 'How do community guides unlock the grill?', paragraphs: ['The current lead places the grill route on the Desert and uses the Blue Shark request. Follow the live NPC objective and boss-bait label rather than treating one guide’s price list as permanent.'] },
+      { id: 'inspect', title: 'How should you time cooking safely?', paragraphs: ['Inspect the item while it heats and remove it using the live multiplier and visual state. This draft deliberately avoids seconds because the timing has not been reproduced by this site.'] },
+      { id: 'gate', title: 'What keeps this page noindex?', paragraphs: ['The unlock route, cooking curve, eligible objects, and value cap need direct current-build captures before this becomes a public mechanics guide.'] },
+    ],
+    evidenceRows: [
+      { topic: 'Grill achievements', official: 'Steam confirms starting the grill and eating a burnt creature.', community: 'Guides connect the Desert Blue Shark request to grill access.', guidance: 'Use the live NPC objective for the unlock route.' },
+      { topic: 'Tool recovery', official: 'Patch 1.0.10 says cooked weapons and tools are cleaned in water.', community: 'Guides describe cooking multipliers and timing windows.', guidance: 'Publish the official recovery; keep exact timing unverified.' },
+    ],
+    failureBranches: [
+      { symptom: 'The grill is inactive', likelyState: 'NPC or Blue Shark objective incomplete', nextStep: 'Follow the live Desert objective and finish the hand-in.' },
+      { symptom: 'An item turns black or loses value', likelyState: 'Cooking passed the useful window', nextStep: 'Use the result only if required for the burnt-food achievement; do not sell it as a profit route.' },
+      { symptom: 'A weapon or tool was cooked', likelyState: 'Non-food item entered the heat area', nextStep: 'Use the Patch 1.0.10 water-cleaning behavior and inspect the item before saving.' },
+    ],
+    faqs: [{ question: 'What is the exact cooking timer?', answer: 'This draft does not publish one because it has not been directly verified.' }, { question: 'Can cooked tools be cleaned?', answer: 'Patch 1.0.10 officially says weapons and tools are cleaned from cooking when dipped in water.' }],
+    relatedPages: ['/tips/killscore/', '/tips/', '/achievements/', '/islands/desert/'], sources: ['steamAchievements', 'patch110', 'cookingGuide'],
+  }),
+  innerPage({
+    route: '/tips/killscore/', priority: 'P2', pageType: 'mechanics-draft', primaryKeyword: 'how to fish game killscore', secondaryKeywords: ['how to fish killscore multiplier', 'how to fish trick shots', 'how to fish impressive achievement'],
+    title: 'How to Fish Game Killscore: Noindex Draft', description: 'Evidence draft separating the official trick-shot value promise from community multiplier names and setup advice.', h1: 'How to Fish Killscore Evidence Draft', eyebrow: 'P2 Draft · Combat Economy Gate',
+    quickAnswer: 'The Steam store confirms that trick shots can earn more money, and achievements confirm both a zero-multiplier kill and a 5x Killscore target. Community guides document named modifiers and stacking routes, but this site has not reproduced the full formula. Use visible on-screen feedback, cheap targets, and replaceable catches; the page remains noindex pending verification.',
+    contentStatus: 'version-sensitive', spoilerLevel: 'none', indexable: false, keyFacts: [{ label: 'Official promise', value: 'Trick shots earn more' }, { label: 'Achievement target', value: '5x' }, { label: 'Formula', value: 'Not verified' }, { label: 'Index status', value: 'Noindex draft' }],
+    sections: [
+      { id: 'official', title: 'What is officially confirmed?', paragraphs: ['The store says trick shots can increase earnings. Steam achievements define Noob as a zero-multiplier kill and Impressive as a 5x multiplier.'] },
+      { id: 'community', title: 'What do community routes add?', paragraphs: ['Community guides name headshots, no-scope, range, rotation, last bullet, and other modifiers. Their exact values and stacking order remain unverified here.'] },
+      { id: 'practice', title: 'How should you practice safely?', steps: ['Use a low-risk replaceable creature.', 'Change one action at a time.', 'Read the on-screen modifier feedback.', 'Record the displayed multiplier.', 'Keep quest trophies out of the experiment.'] },
+      { id: 'gate', title: 'What evidence would support an indexable page?', paragraphs: ['A current-build table reproduced from live on-screen results across repeated controlled kills, or developer documentation of the scoring formula, would clear the evidence gate.'] },
+    ],
+    evidenceRows: [
+      { topic: 'Money effect', official: 'The Steam store says trick shots can earn more money.', community: 'Guides name and stack individual Killscore modifiers.', guidance: 'Use the live displayed multiplier instead of a copied formula.' },
+      { topic: 'Achievement boundaries', official: 'Noob requires zero multiplier and Impressive requires 5x.', community: 'Players propose headshot, no-scope, range, rotation, and last-bullet setups.', guidance: 'Treat setups as practice leads until their values are reproduced.' },
+    ],
+    failureBranches: [
+      { symptom: 'No modifier appears', likelyState: 'Action did not meet the live trigger', nextStep: 'Change one input and watch the result rather than stacking guesses.' },
+      { symptom: 'Displayed multiplier differs from a guide', likelyState: 'Guide version or formula assumption is stale', nextStep: 'Trust the live UI and record the patch.' },
+      { symptom: 'A valuable quest item is at risk', likelyState: 'Wrong practice target', nextStep: 'Stop and switch to a replaceable ordinary catch.' },
+    ],
+    faqs: [{ question: 'What is the exact Killscore formula?', answer: 'It is not published here because the full current formula has not been reproduced.' }, { question: 'What does Steam confirm?', answer: 'Trick shots can increase money, and there are official zero-multiplier and 5x achievements.' }],
+    relatedPages: ['/tips/', '/tips/cooking/', '/achievements/360-no-scope/', '/achievements/'], sources: ['steamStore', 'steamAchievements', 'communityGuide'],
+  }),
+];
 
-export type InnerRouteGroup = 'bosses' | 'fixes' | 'achievements';
+export const innerPages: GuidePage[] = [...p1InnerPages, ...p2AchievementPages, ...p2DraftPages];
+
+export type InnerRouteGroup = 'bosses' | 'fixes' | 'achievements' | 'tips';
 
 export function getInnerRoutePage(group: InnerRouteGroup, slug: string) {
   return innerPages.find((page) => page.route === `/${group}/${slug}/`);
